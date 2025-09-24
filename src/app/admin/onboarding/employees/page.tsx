@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { MoreHorizontal, PlusCircle, UsersRound } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,7 @@ import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 
 export default function EmployeesPage() {
   const { selectedCompany } = useCompany();
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
   const filteredEmployees = React.useMemo(() => {
     if (!selectedCompany) return employees;
@@ -115,7 +116,9 @@ export default function EmployeesPage() {
         <DataTable 
             columns={columns} 
             data={filteredEmployees} 
-            searchKey="name" 
+            searchKey="name"
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
             actionButton={
                  <Button>
                     <PlusCircle className="mr-2 h-4 w-4" />
