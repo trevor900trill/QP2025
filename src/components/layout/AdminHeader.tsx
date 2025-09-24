@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { Bell, Search, ChevronsUpDown, Building, User } from "lucide-react";
-import Image from 'next/image';
+import { Bell, ChevronsUpDown, Building, User, LogOut, ArrowLeftRight } from "lucide-react";
 import Link from 'next/link';
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,15 +22,20 @@ import {
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useCompany } from "@/context/CompanyContext";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export function AdminHeader() {
     const { selectedCompany, setSelectedCompany, availableCompanies } = useCompany();
     const [open, setOpen] = React.useState(false);
+    const pathname = usePathname();
+
+    const currentModule = pathname.startsWith('/admin') ? 'Admin Portal' : pathname.startsWith('/employee') ? 'Employee Portal' : null;
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
       <SidebarTrigger className="md:hidden"/>
-      <div className="w-full flex-1">
+      <div className="w-full flex-1 flex items-center gap-4">
          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
@@ -75,6 +79,19 @@ export function AdminHeader() {
                 </Command>
             </PopoverContent>
         </Popover>
+        {currentModule && (
+             <Badge 
+                variant="outline" 
+                className={cn(
+                    "border-2 text-xs font-semibold uppercase tracking-wider",
+                    pathname.startsWith('/admin') 
+                        ? "border-primary/80 text-primary" 
+                        : "border-blue-500/80 text-blue-500"
+                )}
+            >
+                {currentModule}
+            </Badge>
+        )}
       </div>
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" className="rounded-full">
@@ -92,10 +109,18 @@ export function AdminHeader() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild><Link href="/admin/settings">Settings</Link></DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild><Link href="/">Sign out</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild>
+                <Link href="/module-select">
+                    <ArrowLeftRight className="mr-2 h-4 w-4"/>
+                    <span>Switch Module</span>
+                </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+                <Link href="/">
+                    <LogOut className="mr-2 h-4 w-4"/>
+                    <span>Sign out</span>
+                </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
