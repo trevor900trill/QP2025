@@ -253,7 +253,7 @@ export default function EmployeesPage() {
         />
       </Card>
        <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+        <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
           <DialogHeader>
             <DialogTitle>{editingEmployee ? 'Edit Employee' : 'Add New Employee'}</DialogTitle>
           </DialogHeader>

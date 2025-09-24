@@ -214,7 +214,7 @@ export default function CompaniesPage() {
       </Card>
       
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+        <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
           <DialogHeader>
             <DialogTitle>{editingCompany ? 'Edit Company' : 'Add New Company'}</DialogTitle>
           </DialogHeader>

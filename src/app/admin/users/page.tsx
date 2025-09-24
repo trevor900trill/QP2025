@@ -223,7 +223,7 @@ export default function UsersPage() {
       </Card>
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+        <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
             <DialogHeader>
                 <DialogTitle>{editingUser ? "Edit User" : "Add New User"}</DialogTitle>
             </DialogHeader>

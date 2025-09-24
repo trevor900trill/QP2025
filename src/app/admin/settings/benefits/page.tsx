@@ -188,7 +188,7 @@ export default function BenefitsPage() {
       </Card>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+          <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
             <DialogHeader>
               <DialogTitle>{editingBenefit ? "Edit" : "Add"} Benefit/Deduction</DialogTitle>
             </DialogHeader>

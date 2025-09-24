@@ -102,7 +102,7 @@ export default function ExchangeRatesPage() {
               Add Rate
             </Button>
           </DialogTrigger>
-          <DialogContent className="dialog-bg">
+          <DialogContent>
             <DialogHeader>
               <DialogTitle>Add New Exchange Rate</DialogTitle>
             </DialogHeader>
