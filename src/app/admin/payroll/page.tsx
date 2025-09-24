@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, FileText, Download } from "lucide-react";
+import { MoreHorizontal, FileText, Download, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,9 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "@/components/shared/DataTable";
-import { PageHeader } from "@/components/shared/PageHeader";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 
 type PayrollRun = {
   id: string;
@@ -108,7 +108,7 @@ export default function PayrollPage() {
 
   return (
     <>
-      <PageHeader title="Payroll" description="Review past payroll runs and generate reports." />
+      <AnimatedPageHeader title="Payroll" icon={Wallet} />
       <Card>
         <DataTable columns={columns} data={payrollRuns} searchKey="month" />
       </Card>

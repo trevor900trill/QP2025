@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Users as UsersIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import type { User } from "@/lib/definitions";
 import { users } from "@/lib/placeholder-data";
 import { Card } from "@/components/ui/card";
+import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 
 const columns: ColumnDef<User>[] = [
   {
@@ -87,12 +88,13 @@ export default function UsersPage() {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   return (
     <>
-      <PageHeader title="Users" description="Manage system users and their permissions.">
+      <AnimatedPageHeader title="Users" icon={UsersIcon} />
+      <div className="flex items-center justify-end mb-4">
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />
           Add User
         </Button>
-      </PageHeader>
+      </div>
       <Card>
         <DataTable 
             columns={columns} 

@@ -8,8 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { PageHeader } from '@/components/shared/PageHeader';
-import { reports } from '@/lib/placeholder-data';
+import { AnimatedPageHeader } from '@/components/shared/AnimatedPageHeader';
 
 const reportLinks = [
     { id: 'REP001', name: 'P9 Report', description: 'Annual tax deduction report for employees.', href: '/admin/reports/p9' },
@@ -21,9 +20,9 @@ const reportLinks = [
 export default function ReportsPage() {
   return (
     <>
-      <PageHeader
+      <AnimatedPageHeader
         title="Reports"
-        description="Select a report to generate."
+        icon={FileText}
       />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {reportLinks.map((report) => (

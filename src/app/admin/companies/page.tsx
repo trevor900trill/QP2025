@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Building } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,10 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "@/components/shared/DataTable";
-import { PageHeader } from "@/components/shared/PageHeader";
 import type { Company } from "@/lib/definitions";
 import { companies } from "@/lib/placeholder-data";
 import { Card } from "@/components/ui/card";
+import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 
 const columns: ColumnDef<Company>[] = [
   {
@@ -85,12 +85,13 @@ const columns: ColumnDef<Company>[] = [
 export default function CompaniesPage() {
   return (
     <>
-      <PageHeader title="Companies" description="Manage companies on the QwikPace platform.">
+      <AnimatedPageHeader title="Companies" icon={Building} />
+       <div className="flex items-center justify-end mb-4">
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />
           Add Company
         </Button>
-      </PageHeader>
+      </div>
       <Card>
         <DataTable columns={columns} data={companies} searchKey="name" />
       </Card>

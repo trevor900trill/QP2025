@@ -10,12 +10,10 @@ import {
   ShieldCheck,
   Settings as SettingsIcon,
 } from "lucide-react";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 import {
   Card,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 
 const settingsLinks = [
@@ -49,14 +47,7 @@ const settingsLinks = [
 export default function SettingsPage() {
   return (
     <>
-      <div className="mb-8 rounded-lg bg-primary text-primary-foreground p-6 shadow-md animate-expand-width">
-        <div className="flex items-center justify-between opacity-0 animate-fade-in-delayed">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-            Settings
-          </h1>
-          <SettingsIcon className="h-8 w-8 animate-spin-slow" />
-        </div>
-      </div>
+      <AnimatedPageHeader title="Settings" icon={SettingsIcon} />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {settingsLinks.map((setting, index) => (

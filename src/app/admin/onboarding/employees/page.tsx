@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { MoreHorizontal, PlusCircle, UsersRound } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "@/components/shared/DataTable";
-import { PageHeader } from "@/components/shared/PageHeader";
 import type { Employee } from "@/lib/definitions";
 import { employees } from "@/lib/placeholder-data";
 import { useCompany } from "@/context/CompanyContext";
 import { Card } from "@/components/ui/card";
+import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 
 export default function EmployeesPage() {
   const { selectedCompany } = useCompany();
@@ -110,12 +110,13 @@ export default function EmployeesPage() {
 
   return (
     <>
-      <PageHeader title="Employees" description="Manage your company's employees and their onboarding status.">
+      <AnimatedPageHeader title="Employees" icon={UsersRound} />
+      <div className="flex items-center justify-end mb-4">
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />
           Add Employee
         </Button>
-      </PageHeader>
+      </div>
       <Card>
         <DataTable columns={columns} data={filteredEmployees} searchKey="name" />
       </Card>
