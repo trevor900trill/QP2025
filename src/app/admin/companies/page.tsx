@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { MoreHorizontal, PlusCircle, Building } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -83,14 +83,18 @@ const columns: ColumnDef<Company>[] = [
 ];
 
 export default function CompaniesPage() {
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+
   return (
     <>
       <AnimatedPageHeader title="Companies" icon={Building} iconAnimation="bob" />
       <Card>
-        <DataTable 
-          columns={columns} 
-          data={companies} 
+        <DataTable
+          columns={columns}
+          data={companies}
           searchKey="name"
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
           actionButton={
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
