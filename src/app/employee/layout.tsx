@@ -12,9 +12,9 @@ export default function EmployeeLayout({
   return (
     <CompanyProvider>
       <SidebarProvider>
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <div className="grid h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] overflow-hidden">
           <EmployeeSidebar />
-          <div className="flex flex-col h-screen overflow-y-hidden">
+          <div className="flex flex-col">
             <AdminHeader />
             <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto">
               {children}
