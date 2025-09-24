@@ -86,14 +86,18 @@ export default function CompaniesPage() {
   return (
     <>
       <AnimatedPageHeader title="Companies" icon={Building} iconAnimation="bob" />
-       <div className="flex items-center justify-end mb-4">
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add Company
-        </Button>
-      </div>
       <Card>
-        <DataTable columns={columns} data={companies} searchKey="name" />
+        <DataTable 
+          columns={columns} 
+          data={companies} 
+          searchKey="name"
+          actionButton={
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add Company
+            </Button>
+          }
+        />
       </Card>
     </>
   );

@@ -13,7 +13,7 @@ import {
   ColumnFiltersState,
   RowSelectionState
 } from "@tanstack/react-table";
-import { Download, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 import {
   Table,
@@ -34,6 +34,7 @@ interface DataTableProps<TData, TValue> {
   searchKey: string;
   rowSelection?: RowSelectionState;
   setRowSelection?: React.Dispatch<React.SetStateAction<RowSelectionState>>;
+  actionButton?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -41,7 +42,8 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
   rowSelection,
-  setRowSelection
+  setRowSelection,
+  actionButton,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -94,27 +96,6 @@ export function DataTable<TData, TValue>({
     enableRowSelection: !!setRowSelection,
   });
 
-  const downloadCSV = () => {
-    // Omitting the 'select' column from CSV
-    const csvColumns = tableColumns.filter(c => c.id !== 'select');
-    const headers = csvColumns.map(col => (col.header as string) || (col.id || '')).join(',');
-    const rows = table.getRowModel().rows.map(row => {
-        return csvColumns.map(col => {
-            const cellValue = row.getValue(col.id as string);
-            if (typeof cellValue === 'string') return `"${cellValue.replace(/"/g, '""')}"`;
-            return cellValue;
-        }).join(',');
-    }).join('\n');
-    const csvContent = `data:text/csv;charset=utf-8,${headers}\n${rows}`;
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "qwikpace_data.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <>
       <CardContent>
@@ -130,10 +111,7 @@ export function DataTable<TData, TValue>({
                 className="max-w-sm pl-10"
                 />
             </div>
-            <Button variant="outline" onClick={downloadCSV}>
-                <Download className="mr-2 h-4 w-4" />
-                Download CSV
-            </Button>
+            {actionButton}
         </div>
         <div className="rounded-md border">
             <Table>

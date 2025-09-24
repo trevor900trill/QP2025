@@ -88,12 +88,6 @@ export default function UsersPage() {
   return (
     <>
       <AnimatedPageHeader title="Users" icon={UsersIcon} iconAnimation="breathe" />
-      <div className="flex items-center justify-end mb-4">
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add User
-        </Button>
-      </div>
       <Card>
         <DataTable 
             columns={columns} 
@@ -101,6 +95,12 @@ export default function UsersPage() {
             searchKey="name"
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
+            actionButton={
+                 <Button>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add User
+                </Button>
+            }
         />
       </Card>
     </>

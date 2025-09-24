@@ -92,46 +92,48 @@ export default function RolesPage() {
     },
   ];
 
+  const actionButton = (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+        <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add Role
+        </Button>
+        </DialogTrigger>
+        <DialogContent>
+        <DialogHeader>
+            <DialogTitle>Add New Role</DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Role Name</FormLabel>
+                    <FormControl><Input {...field} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+                <DialogFooter>
+                <DialogClose asChild>
+                    <Button type="button" variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Save</Button>
+            </DialogFooter>
+            </form>
+        </Form>
+        </DialogContent>
+    </Dialog>
+  );
+
   return (
     <>
-      <PageHeader title="Roles Settings" description="Manage user roles and permissions.">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Role
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Role</DialogTitle>
-            </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Role Name</FormLabel>
-                      <FormControl><Input {...field} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <DialogFooter>
-                    <DialogClose asChild>
-                      <Button type="button" variant="outline">Cancel</Button>
-                    </DialogClose>
-                    <Button type="submit">Save</Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      </PageHeader>
+      <PageHeader title="Roles Settings" description="Manage user roles and permissions."/>
       <Card>
-        <DataTable columns={columns} data={roles} searchKey="name" />
+        <DataTable columns={columns} data={roles} searchKey="name" actionButton={actionButton} />
       </Card>
     </>
   );

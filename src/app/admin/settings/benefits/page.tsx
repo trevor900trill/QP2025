@@ -109,10 +109,8 @@ export default function BenefitsPage() {
     },
   ];
 
-  return (
-    <>
-      <PageHeader title="Benefits and Deductions" description="Manage company-wide benefits and deductions.">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+  const actionButton = (
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
@@ -178,7 +176,11 @@ export default function BenefitsPage() {
             </Form>
           </DialogContent>
         </Dialog>
-      </PageHeader>
+  )
+
+  return (
+    <>
+      <PageHeader title="Benefits and Deductions" description="Manage company-wide benefits and deductions." />
       <Card>
         <DataTable
             columns={columns}
@@ -186,6 +188,7 @@ export default function BenefitsPage() {
             searchKey="name"
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
+            actionButton={actionButton}
         />
       </Card>
     </>

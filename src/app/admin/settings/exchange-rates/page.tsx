@@ -94,10 +94,8 @@ export default function ExchangeRatesPage() {
     },
   ];
 
-  return (
-    <>
-      <PageHeader title="Exchange Rates" description="Manage currency exchange rates relative to USD.">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+  const actionButton = (
+     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
@@ -142,9 +140,13 @@ export default function ExchangeRatesPage() {
             </Form>
           </DialogContent>
         </Dialog>
-      </PageHeader>
+  );
+
+  return (
+    <>
+      <PageHeader title="Exchange Rates" description="Manage currency exchange rates relative to USD."/>
       <Card>
-        <DataTable columns={columns} data={rates} searchKey="currency" />
+        <DataTable columns={columns} data={rates} searchKey="currency" actionButton={actionButton} />
       </Card>
     </>
   );

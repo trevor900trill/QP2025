@@ -88,47 +88,49 @@ export default function EmployeeTypesPage() {
       ),
     },
   ];
+  
+  const actionButton = (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+        <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add Employee Type
+        </Button>
+        </DialogTrigger>
+        <DialogContent>
+        <DialogHeader>
+            <DialogTitle>Add New Employee Type</DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Type Name</FormLabel>
+                    <FormControl><Input {...field} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+                <DialogFooter>
+                <DialogClose asChild>
+                    <Button type="button" variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Save</Button>
+            </DialogFooter>
+            </form>
+        </Form>
+        </DialogContent>
+    </Dialog>
+  );
 
   return (
     <>
-      <PageHeader title="Employee Types" description="Define the types of employment in your organization.">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Employee Type
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Employee Type</DialogTitle>
-            </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Type Name</FormLabel>
-                      <FormControl><Input {...field} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <DialogFooter>
-                    <DialogClose asChild>
-                      <Button type="button" variant="outline">Cancel</Button>
-                    </DialogClose>
-                    <Button type="submit">Save</Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      </PageHeader>
+      <PageHeader title="Employee Types" description="Define the types of employment in your organization." />
       <Card>
-        <DataTable columns={columns} data={employeeTypes} searchKey="name" />
+        <DataTable columns={columns} data={employeeTypes} searchKey="name" actionButton={actionButton}/>
       </Card>
     </>
   );

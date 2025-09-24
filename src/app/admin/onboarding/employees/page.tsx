@@ -111,14 +111,18 @@ export default function EmployeesPage() {
   return (
     <>
       <AnimatedPageHeader title="Employees" icon={UsersRound} iconAnimation="breathe" />
-      <div className="flex items-center justify-end mb-4">
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add Employee
-        </Button>
-      </div>
       <Card>
-        <DataTable columns={columns} data={filteredEmployees} searchKey="name" />
+        <DataTable 
+            columns={columns} 
+            data={filteredEmployees} 
+            searchKey="name" 
+            actionButton={
+                 <Button>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add Employee
+                </Button>
+            }
+        />
       </Card>
     </>
   );

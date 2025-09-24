@@ -92,10 +92,8 @@ export default function DepartmentsPage() {
     },
   ];
 
-  return (
-    <>
-      <PageHeader title="Departments" description="Manage your company's departments.">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+  const actionButton = (
+     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
@@ -129,9 +127,13 @@ export default function DepartmentsPage() {
             </Form>
           </DialogContent>
         </Dialog>
-      </PageHeader>
+  );
+
+  return (
+    <>
+      <PageHeader title="Departments" description="Manage your company's departments." />
       <Card>
-        <DataTable columns={columns} data={departments} searchKey="name" />
+        <DataTable columns={columns} data={departments} searchKey="name" actionButton={actionButton} />
       </Card>
     </>
   );
