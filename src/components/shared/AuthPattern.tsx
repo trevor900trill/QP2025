@@ -4,7 +4,7 @@ export function AuthPattern() {
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
             viewBox="0 0 800 600"
-            className="w-full h-auto max-w-4xl opacity-20"
+            className="w-full h-full opacity-20"
         >
             <g fill="none" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5">
                 {/* Large background squares */}
