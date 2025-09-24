@@ -86,3 +86,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes app-switcher-in {
+    from {
+      clip-path: circle(0% at var(--x) var(--y));
+    }
+    to {
+      clip-path: circle(150% at var(--x) var(--y));
+    }
+  }
+
+  .animate-app-switcher-in {
+    animation: app-switcher-in 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+}

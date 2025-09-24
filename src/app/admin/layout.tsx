@@ -12,11 +12,11 @@ export default function AdminLayout({
   return (
     <CompanyProvider>
         <SidebarProvider>
-            <div className="min-h-screen w-full">
+            <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
                 <AdminSidebar />
-                <div className="flex flex-col md:ml-[16rem]">
+                <div className="flex flex-col">
                     <AdminHeader />
-                    <main className="flex-1 overflow-y-auto p-4 lg:p-6 bg-background">
+                    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto">
                         {children}
                     </main>
                 </div>

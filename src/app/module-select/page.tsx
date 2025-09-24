@@ -1,6 +1,8 @@
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { Building, UserCog, Briefcase, ChevronRight } from 'lucide-react';
+import { UserCog, Briefcase, ChevronRight } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -9,6 +11,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
 const modules = [
   {
@@ -28,6 +32,30 @@ const modules = [
 ];
 
 export default function ModuleSelectPage() {
+  const router = useRouter();
+
+  const handleModuleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    document.documentElement.style.setProperty('--x', `${x}px`);
+    document.documentElement.style.setProperty('--y', `${y}px`);
+    
+    document.documentElement.classList.add('animate-app-switcher-in');
+
+    setTimeout(() => {
+      router.push(href);
+    }, 600); // Match animation duration
+    
+    // Clean up animation class after navigation
+    setTimeout(() => {
+        document.documentElement.classList.remove('animate-app-switcher-in');
+    }, 1500);
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <header className="mb-8 text-center">
@@ -39,7 +67,12 @@ export default function ModuleSelectPage() {
       </header>
       <main className="grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
         {modules.map((module) => (
-          <Link href={module.href} key={module.name} className="group">
+          <Link 
+            href={module.href} 
+            key={module.name} 
+            className="group"
+            onClick={(e) => handleModuleClick(e, module.href)}
+          >
             <Card className="h-full transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:border-primary group-hover:-translate-y-1">
               <CardHeader className="flex flex-row items-center gap-4">
                 <div className="bg-primary/10 text-primary p-3 rounded-lg">

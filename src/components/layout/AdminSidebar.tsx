@@ -59,7 +59,7 @@ export function AdminSidebar() {
     }
 
     return (
-        <Sidebar>
+        <Sidebar className="hidden border-r bg-muted/40 md:block">
             <SidebarHeader>
                 <Link href="/module-select" className="flex items-center gap-2">
                     <Image src="/logo.svg" alt="QwikPace Logo" width={32} height={32} />
@@ -90,14 +90,12 @@ export function AdminSidebar() {
                                     <SidebarMenuSub>
                                         {item.subItems.map((subItem) => (
                                             <SidebarMenuSubItem key={subItem.href}>
-                                                <Link href={subItem.href}>
-                                                    <SidebarMenuSubButton asChild isActive={pathname.startsWith(subItem.href)}>
-                                                        <>
-                                                         <subItem.icon className="w-4 h-4" />
-                                                        <span>{subItem.label}</span>
-                                                        </>
-                                                    </SidebarMenuSubButton>
-                                                </Link>
+                                                <SidebarMenuSubButton asChild isActive={pathname.startsWith(subItem.href)}>
+                                                    <Link href={subItem.href}>
+                                                     <subItem.icon className="w-4 h-4" />
+                                                    <span>{subItem.label}</span>
+                                                    </Link>
+                                                </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
                                     </SidebarMenuSub>

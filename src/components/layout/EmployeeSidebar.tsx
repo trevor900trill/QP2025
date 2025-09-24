@@ -34,7 +34,7 @@ export function EmployeeSidebar() {
     const pathname = usePathname();
 
     return (
-        <Sidebar>
+        <Sidebar className="hidden border-r bg-muted/40 md:block">
             <SidebarHeader>
                 <Link href="/module-select" className="flex items-center gap-2">
                     <Image src="/logo.svg" alt="QwikPace Logo" width={32} height={32} />
