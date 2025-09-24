@@ -9,14 +9,6 @@ import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -26,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { AuthPattern } from "@/components/shared/AuthPattern";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -49,40 +42,33 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Mock API call
     console.log("Logging in with:", values);
     
-    // In a real app, you would call your API here:
-    // const response = await fetch('/api/v1/Authenticate/login', ...);
-    // const data = await response.json();
-    // Then handle success/error and decryption
-
     toast({
       title: "Login Successful",
       description: "Redirecting to module selection...",
     });
 
-    // Simulate a successful login and redirect
     setTimeout(() => {
       router.push("/module-select");
     }, 1000);
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-           <div className="flex justify-center mb-4">
-            <Image src="/logo.svg" alt="QwikPace Logo" width={48} height={48} />
+    <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
+      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <div className="flex justify-center mb-4">
+              <Image src="/logo.svg" alt="QwikPace Logo" width={48} height={48} />
+            </div>
+            <h1 className="text-3xl font-bold font-headline">Welcome to QwikPace</h1>
+            <p className="text-balance text-muted-foreground">
+              Enter your credentials to access your account.
+            </p>
           </div>
-          <CardTitle className="text-2xl font-headline">Welcome to QwikPace</CardTitle>
-          <CardDescription>
-            Enter your credentials to access your account.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+           <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -101,11 +87,11 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center">
                       <FormLabel>Password</FormLabel>
                       <Link
                         href="/forgot-password"
-                        className="text-sm text-primary hover:underline"
+                        className="ml-auto inline-block text-sm text-primary hover:underline"
                       >
                         Forgot password?
                       </Link>
@@ -122,16 +108,11 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
-        </CardContent>
-        <CardFooter className="flex justify-center text-sm">
-          <p>
-            Don&apos;t have an account?&nbsp;
-            <Link href="/register" className="text-primary hover:underline">
-              Register here
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
+      <div className="hidden lg:flex items-center justify-center bg-primary/5 p-8">
+        <AuthPattern />
+      </div>
     </div>
   );
 }
