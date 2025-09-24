@@ -108,6 +108,12 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
+           <div className="mt-4 text-center text-sm">
+            Don&apos;t have an account?{" "}
+            <Link href="https://www.qwikpace.com/#book-demo" className="underline text-primary font-semibold">
+              Book a Demo
+            </Link>
+          </div>
         </div>
       </div>
       <div className="hidden lg:flex items-center justify-center bg-primary p-8">
