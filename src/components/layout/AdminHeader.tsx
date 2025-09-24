@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { Bell, Search, ChevronsUpDown, Building, User } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
