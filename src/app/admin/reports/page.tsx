@@ -19,22 +19,6 @@ export default function ReportsPage() {
         description="Generate and download various payroll and compliance reports."
       />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Link href="/admin/reports/anomaly-detection">
-          <Card className="hover:border-primary transition-colors">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BrainCircuit className="h-5 w-5" />
-                <span>AI Anomaly Detection</span>
-              </CardTitle>
-              <CardDescription>
-                Use AI to analyze payroll data and flag potential anomalies for manual review.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="secondary" className="w-full">Generate Report</Button>
-            </CardContent>
-          </Card>
-        </Link>
         {reports.map((report) => (
           <Card key={report.id}>
             <CardHeader>
