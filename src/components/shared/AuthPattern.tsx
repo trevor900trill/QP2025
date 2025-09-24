@@ -4,9 +4,10 @@ export function AuthPattern() {
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
             viewBox="0 0 800 600"
+            preserveAspectRatio="xMidYMid slice"
             className="w-full h-full"
         >
-            <g fill="none" stroke="white" strokeWidth="1.5">
+            <g fill="none" stroke="white" strokeWidth="1.5" opacity="0.5">
                 {/* Large background squares */}
                 <rect x="50" y="50" width="200" height="200" strokeWidth="1" />
                 <rect x="300" y="150" width="250" height="250" strokeWidth="1" />
@@ -50,10 +51,10 @@ export function AuthPattern() {
                 <rect x="545" y="535" width="10" height="10" fill="white" />
 
                 {/* Decorative smaller nodes */}
-                <rect x="400" y="80" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
-                <rect x="720" y="350" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
-                <rect x="80" y="280" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
-                 <rect x="320" y="550" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
+                <rect x="400" y="80" width="6" height="6" strokeWidth="0" fill="white" />
+                <rect x="720" y="350" width="6" height="6" strokeWidth="0" fill="white" />
+                <rect x="80" y="280" width="6" height="6" strokeWidth="0" fill="white" />
+                 <rect x="320" y="550" width="6" height="6" strokeWidth="0" fill="white" />
             </g>
         </svg>
     )
