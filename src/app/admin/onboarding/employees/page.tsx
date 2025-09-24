@@ -19,6 +19,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import type { Employee } from "@/lib/definitions";
 import { employees } from "@/lib/placeholder-data";
 import { useCompany } from "@/context/CompanyContext";
+import { Card } from "@/components/ui/card";
 
 export default function EmployeesPage() {
   const { selectedCompany } = useCompany();
@@ -115,7 +116,9 @@ export default function EmployeesPage() {
           Add Employee
         </Button>
       </PageHeader>
-      <DataTable columns={columns} data={filteredEmployees} searchKey="name" />
+      <Card>
+        <DataTable columns={columns} data={filteredEmployees} searchKey="name" />
+      </Card>
     </>
   );
 }

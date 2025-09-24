@@ -9,6 +9,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import type { Payslip } from "@/lib/definitions";
 import { payslips } from "@/lib/placeholder-data";
+import { Card } from "@/components/ui/card";
 
 const columns: ColumnDef<Payslip>[] = [
   {
@@ -64,7 +65,9 @@ export default function PayslipsPage() {
   return (
     <>
       <PageHeader title="My Payslips" description="View and download your past payslips." />
-      <DataTable columns={columns} data={payslips} searchKey="period" />
+      <Card>
+        <DataTable columns={columns} data={payslips} searchKey="period" />
+      </Card>
     </>
   );
 }

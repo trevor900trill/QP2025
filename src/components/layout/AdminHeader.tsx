@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import { Bell, Search, ChevronsUpDown, Building, User } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -94,6 +94,8 @@ export function AdminHeader() {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild><Link href="/admin/settings">Settings</Link></DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
+             <DropdownMenuSeparator />
+            <DropdownMenuItem asChild><Link href="/module-select">Switch Workspace</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild><Link href="/">Sign out</Link></DropdownMenuItem>
           </DropdownMenuContent>

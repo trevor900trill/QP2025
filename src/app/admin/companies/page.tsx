@@ -17,6 +17,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import type { Company } from "@/lib/definitions";
 import { companies } from "@/lib/placeholder-data";
+import { Card } from "@/components/ui/card";
 
 const columns: ColumnDef<Company>[] = [
   {
@@ -90,7 +91,9 @@ export default function CompaniesPage() {
           Add Company
         </Button>
       </PageHeader>
-      <DataTable columns={columns} data={companies} searchKey="name" />
+      <Card>
+        <DataTable columns={columns} data={companies} searchKey="name" />
+      </Card>
     </>
   );
 }

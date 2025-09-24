@@ -18,6 +18,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import type { User } from "@/lib/definitions";
 import { users } from "@/lib/placeholder-data";
+import { Card } from "@/components/ui/card";
 
 const columns: ColumnDef<User>[] = [
   {
@@ -91,7 +92,9 @@ export default function UsersPage() {
           Add User
         </Button>
       </PageHeader>
-      <DataTable columns={columns} data={users} searchKey="name" />
+      <Card>
+        <DataTable columns={columns} data={users} searchKey="name" />
+      </Card>
     </>
   );
 }
