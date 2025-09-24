@@ -1,155 +1,79 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { KeyRound, Building, Bell } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
+import Link from "next/link";
+import {
+  ChevronRight,
+  Receipt,
+  Building2,
+  Users,
+  Landmark,
+  ShieldCheck,
+  Settings as SettingsIcon,
+} from "lucide-react";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { useToast } from "@/hooks/use-toast";
-import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-const settingsSchema = z.object({
-  aesKey: z.string().min(16, "AES Key must be at least 16 characters long"),
-  companyName: z.string().min(2, "Company name is required"),
-  emailNotifications: z.boolean().default(false),
-  smsNotifications: z.boolean().default(false),
-});
+const settingsLinks = [
+  {
+    href: "/admin/settings/benefits",
+    title: "Benefits and Deductions",
+    icon: Receipt,
+  },
+  {
+    href: "/admin/settings/departments",
+    title: "Departments",
+    icon: Building2,
+  },
+  {
+    href: "/admin/settings/employee-types",
+    title: "Employee Types",
+    icon: Users,
+  },
+  {
+    href: "/admin/settings/exchange-rates",
+    title: "Exchange Rates",
+    icon: Landmark,
+  },
+  {
+    href: "/admin/settings/roles",
+    title: "Roles Settings",
+    icon: ShieldCheck,
+  },
+];
 
 export default function SettingsPage() {
-  const { toast } = useToast();
-  
-  const form = useForm<z.infer<typeof settingsSchema>>({
-    resolver: zodResolver(settingsSchema),
-    defaultValues: {
-      aesKey: process.env.NEXT_PUBLIC_AES_KEY || "YourSuperSecretKeyForAESEncrypt123",
-      companyName: "QwikPace Inc.",
-      emailNotifications: true,
-      smsNotifications: false,
-    },
-  });
-
-  function onSubmit(data: z.infer<typeof settingsSchema>) {
-    console.log("Settings updated:", data);
-    toast({
-      title: "Settings Saved",
-      description: "Your changes have been saved successfully.",
-    });
-  }
-
   return (
     <>
-      <PageHeader title="Settings" description="Manage your account and application settings." />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <KeyRound className="h-5 w-5"/> Security
-              </CardTitle>
-              <CardDescription>Manage security-related settings for your application.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
-                control={form.control}
-                name="aesKey"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>AES Encryption Key</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      The decryption key for login tokens. This should be stored securely.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+      <div className="mb-8 rounded-lg bg-primary text-primary-foreground p-6 shadow-md">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            Settings
+          </h1>
+          <SettingsIcon className="h-8 w-8" />
+        </div>
+      </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building className="h-5 w-5"/> Company Profile
-              </CardTitle>
-              <CardDescription>Update your company's public information.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
-                control={form.control}
-                name="companyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your Company LLC" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5"/> Notifications
-              </CardTitle>
-              <CardDescription>Manage how you receive notifications.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-               <FormField
-                control={form.control}
-                name="emailNotifications"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>Email Notifications</FormLabel>
-                      <FormDescription>Receive notifications via email for important events.</FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="smsNotifications"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>SMS Notifications</FormLabel>
-                      <FormDescription>Receive critical alerts via SMS (charges may apply).</FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-          
-          <div className="flex justify-end">
-            <Button type="submit">Save Changes</Button>
-          </div>
-        </form>
-      </Form>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {settingsLinks.map((setting) => (
+          <Link href={setting.href} key={setting.title} className="group">
+            <Card className="h-full hover:border-primary transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <CardTitle>{setting.title}</CardTitle>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </CardHeader>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </>
   );
 }
