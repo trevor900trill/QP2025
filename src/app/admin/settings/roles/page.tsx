@@ -170,7 +170,7 @@ export default function RolesPage() {
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+        <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
         <DialogHeader>
             <DialogTitle>{editingRole ? "Edit" : "Add New"} Role</DialogTitle>
         </DialogHeader>

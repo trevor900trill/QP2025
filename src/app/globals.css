@@ -85,6 +85,12 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .dialog-bg {
+    background-color: hsl(150 43% 97%);
+  }
+  .dark .dialog-bg {
+    background-color: hsl(240 10% 3.9%);
+  }
 }
 
 @layer utilities {

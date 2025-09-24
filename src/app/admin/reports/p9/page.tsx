@@ -90,7 +90,7 @@ export default function P9ReportPage() {
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
+        <DialogContent className="dialog-bg max-w-4xl h-[90vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>P9 Tax Deduction Card</DialogTitle>
           </DialogHeader>

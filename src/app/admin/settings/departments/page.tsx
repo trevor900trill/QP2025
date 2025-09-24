@@ -169,7 +169,7 @@ export default function DepartmentsPage() {
       </Card>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+          <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
             <DialogHeader>
               <DialogTitle>{editingDepartment ? "Edit" : "Add New"} Department</DialogTitle>
             </DialogHeader>

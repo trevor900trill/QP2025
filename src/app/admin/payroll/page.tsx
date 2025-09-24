@@ -190,7 +190,7 @@ export default function PayrollPage() {
                 Run Payroll
             </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="dialog-bg">
             <DialogHeader>
                 <DialogTitle>Run New Payroll</DialogTitle>
             </DialogHeader>

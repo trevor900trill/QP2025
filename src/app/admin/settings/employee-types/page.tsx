@@ -166,7 +166,7 @@ export default function EmployeeTypesPage() {
       </Card>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+        <DialogContent className="dialog-bg" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
         <DialogHeader>
             <DialogTitle>{editingType ? "Edit" : "Add New"} Employee Type</DialogTitle>
         </DialogHeader>
