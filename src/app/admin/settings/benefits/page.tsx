@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -53,6 +53,7 @@ const initialBenefits: Benefit[] = [
 export default function BenefitsPage() {
   const [benefits, setBenefits] = React.useState<Benefit[]>(initialBenefits);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
   const form = useForm<z.infer<typeof benefitSchema>>({
     resolver: zodResolver(benefitSchema),
@@ -179,7 +180,13 @@ export default function BenefitsPage() {
         </Dialog>
       </PageHeader>
       <Card>
-        <DataTable columns={columns} data={benefits} searchKey="name" />
+        <DataTable
+            columns={columns}
+            data={benefits}
+            searchKey="name"
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+        />
       </Card>
     </>
   );
