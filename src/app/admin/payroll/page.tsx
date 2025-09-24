@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { MoreHorizontal, FileText, Download, Wallet, PlayCircle, CalendarIcon } from "lucide-react";
-import { format, addMonths } from "date-fns";
+import { MoreHorizontal, FileText, Download, Wallet, PlayCircle, CalendarIcon, ChevronsUpDown, Building } from "lucide-react";
+import { format } from "date-fns";
+import { DateRange } from "react-day-picker";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,9 +38,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { useCompany } from "@/context/CompanyContext";
 
 type PayrollRun = {
   id: string;
@@ -57,20 +60,35 @@ const initialPayrollRuns: PayrollRun[] = [
 ];
 
 const payrollSchema = z.object({
-    payPeriod: z.date({
-        required_error: "A pay period is required.",
-    }),
+    companyId: z.string({ required_error: "A company is required." }),
+    payrollName: z.string().min(3, "Payroll name must be at least 3 characters."),
+    payRunPeriod: z.object({
+        from: z.date(),
+        to: z.date(),
+    }, { required_error: "A pay run period is required."}),
+    paymentDate: z.date({ required_error: "A payment date is required." }),
 });
 
 export default function PayrollPage() {
     const { toast } = useToast();
+    const { selectedCompany, availableCompanies } = useCompany();
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const [payrollRuns, setPayrollRuns] = React.useState<PayrollRun[]>(initialPayrollRuns);
     const [isRunPayrollDialogOpen, setIsRunPayrollDialogOpen] = React.useState(false);
 
     const form = useForm<z.infer<typeof payrollSchema>>({
         resolver: zodResolver(payrollSchema),
+        defaultValues: {
+            companyId: selectedCompany?.id,
+            payrollName: "",
+        }
     });
+
+    React.useEffect(() => {
+        if(selectedCompany) {
+            form.setValue('companyId', selectedCompany.id);
+        }
+    }, [selectedCompany, form]);
 
     const handleGenerate = (reportName: string) => {
         toast({
@@ -80,10 +98,11 @@ export default function PayrollPage() {
     }
 
     function onRunPayrollSubmit(data: z.infer<typeof payrollSchema>) {
-        const month = format(data.payPeriod, "MMMM yyyy");
+        const month = format(data.payRunPeriod.from, "MMMM yyyy");
+        const companyName = availableCompanies.find(c => c.id === data.companyId)?.name || 'the company';
         const newRun: PayrollRun = {
             id: `PR${String(payrollRuns.length + 1).padStart(3, '0')}`,
-            month: month,
+            month: data.payrollName,
             employees: 150, // Mock data
             totalGross: 860000, // Mock data
             totalNet: 730000, // Mock data
@@ -92,7 +111,7 @@ export default function PayrollPage() {
         setPayrollRuns([newRun, ...payrollRuns]);
         toast({
             title: "Payroll Run Initiated",
-            description: `Payroll for ${month} is now being processed.`,
+            description: `${data.payrollName} for ${companyName} is now being processed.`,
         });
         form.reset();
         setIsRunPayrollDialogOpen(false);
@@ -176,13 +195,105 @@ export default function PayrollPage() {
                 <DialogTitle>Run New Payroll</DialogTitle>
             </DialogHeader>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onRunPayrollSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(onRunPayrollSubmit)} className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="companyId"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Company</FormLabel>
+                                 <Popover>
+                                    <PopoverTrigger asChild>
+                                    <FormControl>
+                                        <Button
+                                            variant="outline"
+                                            role="combobox"
+                                            className={cn("w-full justify-between", !field.value && "text-muted-foreground")}
+                                        >
+                                            {field.value
+                                                ? availableCompanies.find(c => c.id === field.value)?.name
+                                                : "Select company"}
+                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                       {/* This should be a command component but simplified for now */}
+                                       {availableCompanies.map(c => (
+                                          <Button key={c.id} variant="ghost" className="w-full justify-start" onClick={() => field.onChange(c.id)}>
+                                             <Building className="mr-2 h-4 w-4" />
+                                             {c.name}
+                                          </Button>
+                                       ))}
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    <FormField
+                        control={form.control}
+                        name="payrollName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Payroll Name</FormLabel>
+                                <FormControl><Input placeholder="e.g. August 2024 Payroll" {...field} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                      <FormField
                         control={form.control}
-                        name="payPeriod"
+                        name="payRunPeriod"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                            <FormLabel>Pay Period</FormLabel>
+                                <FormLabel>Pay Run Period</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            id="date"
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full justify-start text-left font-normal",
+                                                !field.value && "text-muted-foreground"
+                                            )}
+                                        >
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {field.value?.from ? (
+                                                field.value.to ? (
+                                                <>
+                                                    {format(field.value.from, "LLL dd, y")} -{" "}
+                                                    {format(field.value.to, "LLL dd, y")}
+                                                </>
+                                                ) : (
+                                                format(field.value.from, "LLL dd, y")
+                                                )
+                                            ) : (
+                                                <span>Pick a date range</span>
+                                            )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            initialFocus
+                                            mode="range"
+                                            defaultMonth={field.value?.from}
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            numberOfMonths={2}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    <FormField
+                        control={form.control}
+                        name="paymentDate"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                            <FormLabel>Payment Date</FormLabel>
                             <Popover>
                                 <PopoverTrigger asChild>
                                 <FormControl>
@@ -194,9 +305,9 @@ export default function PayrollPage() {
                                     )}
                                     >
                                     {field.value ? (
-                                        format(field.value, "MMMM yyyy")
+                                        format(field.value, "PPP")
                                     ) : (
-                                        <span>Pick a month</span>
+                                        <span>Pick a date</span>
                                     )}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                     </Button>
@@ -208,7 +319,7 @@ export default function PayrollPage() {
                                     selected={field.value}
                                     onSelect={field.onChange}
                                     disabled={(date) =>
-                                        date > new Date() || date < new Date("1900-01-01")
+                                        date < new Date("1900-01-01")
                                     }
                                     initialFocus
                                 />
