@@ -34,28 +34,6 @@ const modules = [
 export default function ModuleSelectPage() {
   const router = useRouter();
 
-  const handleModuleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const target = e.currentTarget;
-    const rect = target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    document.documentElement.style.setProperty('--x', `${x}px`);
-    document.documentElement.style.setProperty('--y', `${y}px`);
-    
-    document.documentElement.classList.add('animate-app-switcher-in');
-
-    setTimeout(() => {
-      router.push(href);
-    }, 600); // Match animation duration
-    
-    // Clean up animation class after navigation
-    setTimeout(() => {
-        document.documentElement.classList.remove('animate-app-switcher-in');
-    }, 1500);
-  };
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <header className="mb-8 text-center">
@@ -71,7 +49,6 @@ export default function ModuleSelectPage() {
             href={module.href} 
             key={module.name} 
             className="group"
-            onClick={(e) => handleModuleClick(e, module.href)}
           >
             <Card className="h-full transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:border-primary group-hover:-translate-y-1">
               <CardHeader className="flex flex-row items-center gap-4">

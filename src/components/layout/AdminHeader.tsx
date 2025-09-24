@@ -94,8 +94,6 @@ export function AdminHeader() {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild><Link href="/admin/settings">Settings</Link></DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
-             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild><Link href="/module-select">Switch Workspace</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild><Link href="/">Sign out</Link></DropdownMenuItem>
           </DropdownMenuContent>
