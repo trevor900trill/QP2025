@@ -49,8 +49,8 @@ const settingsLinks = [
 export default function SettingsPage() {
   return (
     <>
-      <div className="mb-8 rounded-lg bg-primary text-primary-foreground p-6 shadow-md animate-fade-in-down">
-        <div className="flex items-center justify-between">
+      <div className="mb-8 rounded-lg bg-primary text-primary-foreground p-6 shadow-md animate-expand-width">
+        <div className="flex items-center justify-between opacity-0 animate-fade-in-delayed">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
             Settings
           </h1>
@@ -60,12 +60,12 @@ export default function SettingsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {settingsLinks.map((setting, index) => (
-          <Link href={setting.href} key={setting.title} className="group animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-            <Card className="h-full hover:border-primary transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1">
+          <Link href={setting.href} key={setting.title} className="group" style={{ animationDelay: `${index * 100}ms` }}>
+            <Card className="h-full hover:border-primary transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 animate-fade-in-up">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div>
-                    <CardTitle className="font-semibold text-lg">{setting.title}</CardTitle>
+                    <div className="font-medium text-lg">{setting.title}</div>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
