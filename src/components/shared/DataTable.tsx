@@ -11,6 +11,7 @@ import {
   SortingState,
   getSortedRowModel,
   ColumnFiltersState,
+  RowSelectionState
 } from "@tanstack/react-table";
 import { Download, Search } from 'lucide-react';
 
@@ -25,40 +26,80 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CardContent, CardFooter } from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
+  rowSelection?: RowSelectionState;
+  setRowSelection?: React.Dispatch<React.SetStateAction<RowSelectionState>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   searchKey,
+  rowSelection,
+  setRowSelection
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
+  const tableColumns = React.useMemo(() => {
+    if (!setRowSelection) return columns;
+
+    return [
+      {
+        id: 'select',
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && 'indeterminate')
+            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
+      ...columns,
+    ]
+  }, [columns, setRowSelection]);
+
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
+      rowSelection,
     },
+    enableRowSelection: !!setRowSelection,
   });
 
   const downloadCSV = () => {
-    const headers = columns.map(col => (col.header as string) || (col.id || '')).join(',');
+    // Omitting the 'select' column from CSV
+    const csvColumns = tableColumns.filter(c => c.id !== 'select');
+    const headers = csvColumns.map(col => (col.header as string) || (col.id || '')).join(',');
     const rows = table.getRowModel().rows.map(row => {
-        return columns.map(col => {
+        return csvColumns.map(col => {
             const cellValue = row.getValue(col.id as string);
             if (typeof cellValue === 'string') return `"${cellValue.replace(/"/g, '""')}"`;
             return cellValue;
@@ -134,7 +175,7 @@ export function DataTable<TData, TValue>({
                 ) : (
                 <TableRow>
                     <TableCell
-                    colSpan={columns.length}
+                    colSpan={tableColumns.length}
                     className="h-24 text-center"
                     >
                     No results.
@@ -146,23 +187,29 @@ export function DataTable<TData, TValue>({
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex items-center justify-end space-x-2 py-4 w-full">
-            <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            >
-            Previous
-            </Button>
-            <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            >
-            Next
-            </Button>
+        <div className="flex items-center justify-between space-x-2 py-4 w-full">
+            <div className="flex-1 text-sm text-muted-foreground">
+                {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                {table.getFilteredRowModel().rows.length} row(s) selected.
+            </div>
+            <div className="flex items-center space-x-2">
+                <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                >
+                Previous
+                </Button>
+                <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                >
+                Next
+                </Button>
+            </div>
         </div>
       </CardFooter>
     </>

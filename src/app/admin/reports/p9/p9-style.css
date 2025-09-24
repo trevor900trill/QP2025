@@ -1,0 +1,123 @@
+.p9form {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 11px;
+    line-height: 1.2;
+    color: #000;
+    background-color: #fff;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    margin-bottom: 2rem;
+}
+
+.p9form .center {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.p9form .parent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.p9form .child {
+    flex: 1;
+}
+
+.p9form .lone-child {
+    width: 100%;
+}
+
+.p9form .left {
+    text-align: left;
+}
+
+.p9form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.p9form th, .p9form td {
+    border: 1px solid #000;
+    padding: 2px 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.p9form th {
+    font-weight: bold;
+}
+
+.p9form .bold {
+    font-weight: bold;
+}
+
+.p9form .centercol {
+    text-align: center;
+}
+
+.p9form .nobottomborder {
+    border-bottom: none;
+}
+
+.p9form .notopborder {
+    border-top: none;
+}
+
+.p9form tbody td p {
+    margin: 0;
+    padding: 0;
+}
+
+.p9form .footer-text {
+    font-size: 10px;
+}
+
+.p9form .shychild {
+    flex: 1;
+    padding: 0 1rem;
+}
+
+.p9form .fullunderline {
+    border-bottom: 1px solid #000;
+    height: 1.2em;
+}
+
+.p9form .halfunderline {
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    width: 50%;
+    margin-left: 5px;
+}
+
+.p9form .writting {
+    display: flex;
+    align-items: baseline;
+}
+
+@media print {
+    body, html {
+        visibility: hidden;
+    }
+    #p9-printable-area, #p9-printable-area * {
+        visibility: visible;
+    }
+    #p9-printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    .p9form {
+        border: none;
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+    }
+}
+
+.break-after-page {
+    break-after: page;
+}

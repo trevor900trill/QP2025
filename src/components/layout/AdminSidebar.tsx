@@ -11,7 +11,8 @@ import {
     FileText, 
     Settings, 
     ChevronDown,
-    UsersRound
+    UsersRound,
+    Wallet
 } from "lucide-react";
 import {
   Sidebar,
@@ -20,7 +21,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarFooter,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem
@@ -39,6 +39,7 @@ const adminNavItems = [
             { href: "/admin/onboarding/employees", label: "Employees", icon: UsersRound },
         ]
     },
+    { href: "/admin/payroll", label: "Payroll", icon: Wallet },
     { href: "/admin/reports", label: "Reports", icon: FileText },
     { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
@@ -51,7 +52,7 @@ export function AdminSidebar() {
     }
 
     return (
-        <Sidebar className="hidden border-r bg-muted/40 md:block">
+        <Sidebar className="hidden border-r bg-card md:block">
             <SidebarHeader>
                 <Link href="/module-select" className="flex items-center gap-2">
                     <Image src="/logo.svg" alt="QwikPace Logo" width={32} height={32} />
