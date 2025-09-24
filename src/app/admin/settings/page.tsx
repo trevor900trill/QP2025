@@ -47,7 +47,7 @@ const settingsLinks = [
 export default function SettingsPage() {
   return (
     <>
-      <AnimatedPageHeader title="Settings" icon={SettingsIcon} />
+      <AnimatedPageHeader title="Settings" icon={SettingsIcon} iconAnimation="spin" />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {settingsLinks.map((setting, index) => (

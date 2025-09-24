@@ -41,7 +41,7 @@ const chartData = [
 export default function AdminDashboard() {
   return (
     <>
-      <AnimatedPageHeader title="Dashboard" icon={LayoutDashboard} />
+      <AnimatedPageHeader title="Dashboard" icon={LayoutDashboard} iconAnimation="pulse" />
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "@/components/shared/DataTable";
-import { PageHeader } from "@/components/shared/PageHeader";
 import type { User } from "@/lib/definitions";
 import { users } from "@/lib/placeholder-data";
 import { Card } from "@/components/ui/card";
@@ -88,7 +87,7 @@ export default function UsersPage() {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   return (
     <>
-      <AnimatedPageHeader title="Users" icon={UsersIcon} />
+      <AnimatedPageHeader title="Users" icon={UsersIcon} iconAnimation="breathe" />
       <div className="flex items-center justify-end mb-4">
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />

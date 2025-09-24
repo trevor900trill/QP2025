@@ -23,6 +23,7 @@ export default function ReportsPage() {
       <AnimatedPageHeader
         title="Reports"
         icon={FileText}
+        iconAnimation="slide"
       />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {reportLinks.map((report) => (

@@ -110,7 +110,7 @@ export default function EmployeesPage() {
 
   return (
     <>
-      <AnimatedPageHeader title="Employees" icon={UsersRound} />
+      <AnimatedPageHeader title="Employees" icon={UsersRound} iconAnimation="breathe" />
       <div className="flex items-center justify-end mb-4">
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />

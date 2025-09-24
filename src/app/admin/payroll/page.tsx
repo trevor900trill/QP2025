@@ -108,7 +108,7 @@ export default function PayrollPage() {
 
   return (
     <>
-      <AnimatedPageHeader title="Payroll" icon={Wallet} />
+      <AnimatedPageHeader title="Payroll" icon={Wallet} iconAnimation="shake" />
       <Card>
         <DataTable columns={columns} data={payrollRuns} searchKey="month" />
       </Card>
