@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { MoreHorizontal, FileText, Download, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +33,7 @@ const payrollRuns: PayrollRun[] = [
 
 export default function PayrollPage() {
     const { toast } = useToast();
+    const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
     const handleGenerate = (reportName: string) => {
         toast({
@@ -110,7 +111,13 @@ export default function PayrollPage() {
     <>
       <AnimatedPageHeader title="Payroll" icon={Wallet} iconAnimation="shake" />
       <Card>
-        <DataTable columns={columns} data={payrollRuns} searchKey="month" />
+        <DataTable
+            columns={columns}
+            data={payrollRuns}
+            searchKey="month"
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+        />
       </Card>
     </>
   );
