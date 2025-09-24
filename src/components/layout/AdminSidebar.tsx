@@ -83,12 +83,12 @@ export function AdminSidebar() {
                                     <SidebarMenuSub>
                                         {item.subItems.map((subItem) => (
                                             <SidebarMenuSubItem key={subItem.href}>
-                                                <Link href={subItem.href}>
-                                                    <SidebarMenuSubButton isActive={pathname.startsWith(subItem.href)}>
+                                                <SidebarMenuSubButton asChild isActive={pathname.startsWith(subItem.href)}>
+                                                    <Link href={subItem.href}>
                                                          <subItem.icon className="w-4 h-4" />
                                                         <span>{subItem.label}</span>
-                                                    </SidebarMenuSubButton>
-                                                </Link>
+                                                    </Link>
+                                                </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
                                     </SidebarMenuSub>
