@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -84,6 +84,7 @@ const columns: ColumnDef<User>[] = [
 ];
 
 export default function UsersPage() {
+    const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   return (
     <>
       <PageHeader title="Users" description="Manage system users and their permissions.">
@@ -93,7 +94,13 @@ export default function UsersPage() {
         </Button>
       </PageHeader>
       <Card>
-        <DataTable columns={columns} data={users} searchKey="name" />
+        <DataTable 
+            columns={columns} 
+            data={users} 
+            searchKey="name"
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+        />
       </Card>
     </>
   );
