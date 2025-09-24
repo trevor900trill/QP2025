@@ -6,7 +6,7 @@ export function AuthPattern() {
             viewBox="0 0 800 600"
             className="w-full h-full opacity-20"
         >
-            <g fill="none" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5">
+            <g fill="none" stroke="white" strokeWidth="1.5">
                 {/* Large background squares */}
                 <rect x="50" y="50" width="200" height="200" strokeWidth="1" />
                 <rect x="300" y="150" width="250" height="250" strokeWidth="1" />
@@ -35,25 +35,25 @@ export function AuthPattern() {
                 <path d="M550,540 L550,580" />
 
                 {/* Small filled squares (nodes) */}
-                <rect x="265" y="155" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="205" y="215" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="345" y="195" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="495" y="270" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="420" y="345" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="75" y="395" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="175" y="445" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="125" y="495" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="625" y="215" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="575" y="115" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="475" y="425" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="615" y="480" width="10" height="10" fill="hsl(var(--primary-foreground))" />
-                <rect x="545" y="535" width="10" height="10" fill="hsl(var(--primary-foreground))" />
+                <rect x="265" y="155" width="10" height="10" fill="white" />
+                <rect x="205" y="215" width="10" height="10" fill="white" />
+                <rect x="345" y="195" width="10" height="10" fill="white" />
+                <rect x="495" y="270" width="10" height="10" fill="white" />
+                <rect x="420" y="345" width="10" height="10" fill="white" />
+                <rect x="75" y="395" width="10" height="10" fill="white" />
+                <rect x="175" y="445" width="10" height="10" fill="white" />
+                <rect x="125" y="495" width="10" height="10" fill="white" />
+                <rect x="625" y="215" width="10" height="10" fill="white" />
+                <rect x="575" y="115" width="10" height="10" fill="white" />
+                <rect x="475" y="425" width="10" height="10" fill="white" />
+                <rect x="615" y="480" width="10" height="10" fill="white" />
+                <rect x="545" y="535" width="10" height="10" fill="white" />
 
                 {/* Decorative smaller nodes */}
-                <rect x="400" y="80" width="6" height="6" strokeWidth="0" fill="hsl(var(--primary-foreground))" opacity="0.7"/>
-                <rect x="720" y="350" width="6" height="6" strokeWidth="0" fill="hsl(var(--primary-foreground))" opacity="0.7"/>
-                <rect x="80" y="280" width="6" height="6" strokeWidth="0" fill="hsl(var(--primary-foreground))" opacity="0.7"/>
-                 <rect x="320" y="550" width="6" height="6" strokeWidth="0" fill="hsl(var(--primary-foreground))" opacity="0.7"/>
+                <rect x="400" y="80" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
+                <rect x="720" y="350" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
+                <rect x="80" y="280" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
+                 <rect x="320" y="550" width="6" height="6" strokeWidth="0" fill="white" opacity="0.7"/>
             </g>
         </svg>
     )

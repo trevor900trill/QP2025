@@ -116,7 +116,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <div className="hidden lg:flex items-center justify-center bg-primary p-8">
+      <div className="hidden lg:flex items-center justify-center bg-primary">
         <AuthPattern />
       </div>
     </div>
