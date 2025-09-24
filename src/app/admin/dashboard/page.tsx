@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react";
 import { Activity, CreditCard, DollarSign, Users, Download, ArrowUp, ArrowDown, LayoutDashboard } from "lucide-react"
 import {
   Card,
@@ -21,9 +22,8 @@ import { PageHeader } from "@/components/shared/PageHeader"
 import { Button } from "@/components/ui/button"
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import { employees } from "@/lib/placeholder-data"
-import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 
-const chartData = [
+const generateChartData = () => [
   { name: 'Jan', total: Math.floor(Math.random() * 5000) + 1000 },
   { name: 'Feb', total: Math.floor(Math.random() * 5000) + 1000 },
   { name: 'Mar', total: Math.floor(Math.random() * 5000) + 1000 },
@@ -39,9 +39,15 @@ const chartData = [
 ]
 
 export default function AdminDashboard() {
+  const [chartData, setChartData] = useState<any[]>([]);
+
+  useEffect(() => {
+    setChartData(generateChartData());
+  }, []);
+
   return (
     <>
-      <AnimatedPageHeader title="Dashboard" icon={LayoutDashboard} iconAnimation="pulse" />
+      <PageHeader title="Dashboard" />
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
