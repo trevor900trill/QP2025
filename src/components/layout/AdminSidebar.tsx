@@ -12,6 +12,8 @@ import {
     Settings, 
     ChevronDown,
     UsersRound, 
+    Grid3x3,
+    Briefcase,
 } from "lucide-react";
 import {
   Sidebar,
@@ -42,6 +44,11 @@ const adminNavItems = [
     { href: "/admin/reports", label: "Reports", icon: FileText },
     { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
+
+const appSwitcherItems = [
+    { href: "/admin/dashboard", label: "Admin Portal", icon: Users },
+    { href: "/employee/dashboard", label: "Employee Portal", icon: Briefcase },
+]
 
 
 export function AdminSidebar() {
@@ -83,12 +90,14 @@ export function AdminSidebar() {
                                     <SidebarMenuSub>
                                         {item.subItems.map((subItem) => (
                                             <SidebarMenuSubItem key={subItem.href}>
-                                                <SidebarMenuSubButton asChild isActive={pathname.startsWith(subItem.href)}>
-                                                    <Link href={subItem.href}>
+                                                <Link href={subItem.href}>
+                                                    <SidebarMenuSubButton asChild isActive={pathname.startsWith(subItem.href)}>
+                                                        <>
                                                          <subItem.icon className="w-4 h-4" />
                                                         <span>{subItem.label}</span>
-                                                    </Link>
-                                                </SidebarMenuSubButton>
+                                                        </>
+                                                    </SidebarMenuSubButton>
+                                                </Link>
                                             </SidebarMenuSubItem>
                                         ))}
                                     </SidebarMenuSub>
@@ -107,8 +116,39 @@ export function AdminSidebar() {
                     ))}
                 </SidebarMenu>
             </SidebarContent>
-            <SidebarFooter>
-                {/* Can add footer items here if needed */}
+            <SidebarFooter className="p-2">
+                 <Collapsible>
+                    <SidebarMenuItem>
+                            <CollapsibleTrigger asChild>
+                            <SidebarMenuButton 
+                                className="w-full justify-between" 
+                                variant="default"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Grid3x3 className="w-4 h-4" />
+                                    <span>Apps</span>
+                                </div>
+                                <ChevronDown className="h-4 w-4 transition-transform duration-200 [&[data-state=open]]:rotate-180" />
+                            </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                    </SidebarMenuItem>
+                    <CollapsibleContent>
+                        <SidebarMenuSub>
+                            {appSwitcherItems.map((item) => (
+                                <SidebarMenuSubItem key={item.href}>
+                                    <Link href={item.href}>
+                                        <SidebarMenuSubButton asChild isActive={pathname.startsWith(item.href.split('/')[1])}>
+                                            <>
+                                                <item.icon className="w-4 h-4" />
+                                                <span>{item.label}</span>
+                                            </>
+                                        </SidebarMenuSubButton>
+                                    </Link>
+                                </SidebarMenuSubItem>
+                            ))}
+                        </SidebarMenuSub>
+                    </CollapsibleContent>
+                </Collapsible>
             </SidebarFooter>
         </Sidebar>
     );
