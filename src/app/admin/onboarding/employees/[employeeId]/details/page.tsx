@@ -10,13 +10,20 @@ import {
   Briefcase,
   Landmark,
   FileText,
-  Heart,
   Users as UsersIcon,
   Phone,
   Mail,
-  Calendar,
+  Cake,
   Wallet,
   Building,
+  Venus,
+  Flag,
+  Fingerprint,
+  BookUser,
+  Heart,
+  School,
+  ShieldAlert,
+  ClipboardUser,
 } from "lucide-react"
 
 import { employees } from "@/lib/placeholder-data"
@@ -116,57 +123,57 @@ export default function EmployeeDetailsPage() {
       <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
         <div className="xl:col-span-1 flex flex-col gap-6">
            <DetailSection title="Personal Information" icon={User}>
-                <InfoPill label="Full Name" value={`${employee.firstName} ${employee.middleName || ''} ${employee.surname}`} />
-                <InfoPill label="Date of Birth" value={new Date(employee.dob).toLocaleDateString()} />
-                <InfoPill label="Gender" value={employee.gender} />
-                <InfoPill label="Nationality" value={employee.nationality} />
-                <InfoPill label="ID Number" value={employee.idNumber} />
-                {employee.passportNumber && <InfoPill label="Passport Number" value={employee.passportNumber} />}
+                <InfoPill icon={User} label="Full Name" value={`${employee.firstName} ${employee.middleName || ''} ${employee.surname}`} />
+                <InfoPill icon={Cake} label="Date of Birth" value={new Date(employee.dob).toLocaleDateString()} />
+                <InfoPill icon={Venus} label="Gender" value={employee.gender} />
+                <InfoPill icon={Flag} label="Nationality" value={employee.nationality} />
+                <InfoPill icon={Fingerprint} label="ID Number" value={employee.idNumber} />
+                {employee.passportNumber && <InfoPill icon={BookUser} label="Passport Number" value={employee.passportNumber} />}
            </DetailSection>
             <DetailSection title="Contact Details" icon={Phone}>
-                <InfoPill label="Personal Email" value={<a href={`mailto:${employee.address.personalEmail}`} className="text-primary hover:underline">{employee.address.personalEmail}</a>} />
-                <InfoPill label="Mobile Number" value={employee.address.mobileNumber} />
+                <InfoPill icon={Mail} label="Personal Email" value={<a href={`mailto:${employee.address.personalEmail}`} className="text-primary hover:underline">{employee.address.personalEmail}</a>} />
+                <InfoPill icon={Phone} label="Mobile Number" value={employee.address.mobileNumber} />
                 <Separator />
-                <InfoPill label="Address" value={`${employee.address.address}, ${employee.address.city}, ${employee.address.postCode}, ${employee.address.country}`} />
+                <InfoPill icon={MapPin} label="Address" value={`${employee.address.address}, ${employee.address.city}, ${employee.address.postCode}, ${employee.address.country}`} />
             </DetailSection>
         </div>
 
         <div className="xl:col-span-1 flex flex-col gap-6">
             <DetailSection title="Work & Employment" icon={Briefcase}>
-                <InfoPill label="Work Email" value={<a href={`mailto:${employee.employeeWorkDetails.workEmail}`} className="text-primary hover:underline">{employee.employeeWorkDetails.workEmail}</a>} />
-                <InfoPill label="Date of Employment" value={new Date(employee.employeeWorkDetails.dateOfEmployment).toLocaleDateString()} />
-                <InfoPill label="Department" value={employee.department} />
-                <InfoPill label="Employment Type" value={employee.employmentTypeId} />
-                 <InfoPill label="Department Head" value={employee.isDepartmentHead ? 'Yes' : 'No'} />
+                <InfoPill icon={Mail} label="Work Email" value={<a href={`mailto:${employee.employeeWorkDetails.workEmail}`} className="text-primary hover:underline">{employee.employeeWorkDetails.workEmail}</a>} />
+                <InfoPill icon={Calendar} label="Date of Employment" value={new Date(employee.employeeWorkDetails.dateOfEmployment).toLocaleDateString()} />
+                <InfoPill icon={Building} label="Department" value={employee.department} />
+                <InfoPill icon={ClipboardUser} label="Employment Type" value={employee.employmentTypeId} />
+                 <InfoPill icon={User} label="Department Head" value={employee.isDepartmentHead ? 'Yes' : 'No'} />
             </DetailSection>
 
              <DetailSection title="Statutory Details" icon={FileText}>
-                <InfoPill label="KRA PIN" value={employee.kraDetail.employeePIN} />
-                <InfoPill label="NSSF Number" value={employee.kraDetail.employeeNSSF} />
-                <InfoPill label="NHIF Number" value={employee.kraDetail.employeeNHIF} />
+                <InfoPill icon={FileText} label="KRA PIN" value={employee.kraDetail.employeePIN} />
+                <InfoPill icon={FileText} label="NSSF Number" value={employee.kraDetail.employeeNSSF} />
+                <InfoPill icon={FileText} label="NHIF Number" value={employee.kraDetail.employeeNHIF} />
             </DetailSection>
         </div>
 
          <div className="xl:col-span-1 flex flex-col gap-6">
             <DetailSection title="Financials" icon={Wallet}>
-                <InfoPill label="Gross Pay (KES)" value={new Intl.NumberFormat('en-US', { style: 'currency', currency: 'KES' }).format(employee.grossPayKES)} />
-                <InfoPill label="Bank" value={employee.employeeBanking.bankId} />
-                <InfoPill label="Account Name" value={employee.employeeBanking.accountName} />
-                <InfoPill label="Account Number" value={employee.employeeBanking.accountNumber} />
+                <InfoPill icon={Wallet} label="Gross Pay (KES)" value={new Intl.NumberFormat('en-US', { style: 'currency', currency: 'KES' }).format(employee.grossPayKES)} />
+                <InfoPill icon={Landmark} label="Bank" value={employee.employeeBanking.bankId} />
+                <InfoPill icon={User} label="Account Name" value={employee.employeeBanking.accountName} />
+                <InfoPill icon={Wallet} label="Account Number" value={employee.employeeBanking.accountNumber} />
             </DetailSection>
             
             <DetailSection title="Additional Details" icon={UsersIcon}>
-                <InfoPill label="Marital Status" value={employee.employeePersonalDetail.maritalStatus} />
-                 <InfoPill label="Education Level" value={employee.employeePersonalDetail.levelOfEducation} />
+                <InfoPill icon={Heart} label="Marital Status" value={employee.employeePersonalDetail.maritalStatus} />
+                 <InfoPill icon={School} label="Education Level" value={employee.employeePersonalDetail.levelOfEducation} />
                  <Separator />
                  <p className="font-medium text-sm">Emergency Contact</p>
-                 <InfoPill label="Name" value={employee.employeePersonalDetail.emergencyContactName} />
-                 <InfoPill label="Phone" value={employee.employeePersonalDetail.emergencyContactPhone} />
+                 <InfoPill icon={User} label="Name" value={employee.employeePersonalDetail.emergencyContactName} />
+                 <InfoPill icon={Phone} label="Phone" value={employee.employeePersonalDetail.emergencyContactPhone} />
                  <Separator />
                  <p className="font-medium text-sm">Referee</p>
-                 <InfoPill label="Name" value={employee.employeeReferee.names} />
-                 <InfoPill label="Email" value={employee.employeeReferee.email} />
-                 <InfoPill label="Phone" value={employee.employeeReferee.phoneNumber} />
+                 <InfoPill icon={User} label="Name" value={employee.employeeReferee.names} />
+                 <InfoPill icon={Mail} label="Email" value={employee.employeeReferee.email} />
+                 <InfoPill icon={Phone} label="Phone" value={employee.employeeReferee.phoneNumber} />
             </DetailSection>
         </div>
       </div>
