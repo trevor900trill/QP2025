@@ -21,8 +21,8 @@ const columns: ColumnDef<Payslip>[] = [
     header: "Gross Pay",
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("grossPay"));
-      const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
-      return <div className="text-right font-medium">{formatted}</div>;
+      const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(amount);
+      return <div className="font-medium">{formatted}</div>;
     },
   },
   {
@@ -30,8 +30,8 @@ const columns: ColumnDef<Payslip>[] = [
     header: "Deductions",
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("deductions"));
-      const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
-      return <div className="text-right font-medium">{formatted}</div>;
+      const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(amount);
+      return <div className="font-medium">{formatted}</div>;
     },
   },
   {
@@ -39,8 +39,8 @@ const columns: ColumnDef<Payslip>[] = [
     header: "Net Pay",
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("netPay"));
-      const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
-      return <div className="text-right font-medium">{formatted}</div>;
+      const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(amount);
+      return <div className="font-medium">{formatted}</div>;
     },
   },
   {
