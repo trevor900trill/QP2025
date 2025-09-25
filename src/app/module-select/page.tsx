@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserCog, Briefcase, ChevronRight } from 'lucide-react';
+import { UserCog, Briefcase, ChevronRight, ShoppingCart } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -11,29 +11,38 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
 import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 const modules = [
   {
-    name: 'Admin Portal',
+    name: 'Payroll',
     description: 'Manage companies, users, payroll, and system settings.',
     icon: UserCog,
     href: '/admin/dashboard',
     role: 'admin',
+    disabled: false,
   },
   {
-    name: 'Employee Portal',
+    name: 'HR',
     description: 'View your profile, download payslips, and manage personal information.',
     icon: Briefcase,
     href: '/employee/dashboard',
     role: 'employee',
+    disabled: false,
+  },
+  {
+    name: 'POS',
+    description: 'Point of Sale for retail and services.',
+    icon: ShoppingCart,
+    href: '#',
+    role: 'pos',
+    disabled: true,
   },
 ];
 
 export default function ModuleSelectPage() {
-  const router = useRouter();
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <header className="mb-8 text-center">
@@ -43,14 +52,22 @@ export default function ModuleSelectPage() {
         <h1 className="text-4xl font-bold font-headline text-gray-800 dark:text-gray-100">Choose Your Workspace</h1>
         <p className="text-muted-foreground mt-2">Select the portal you want to access.</p>
       </header>
-      <main className="grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
-        {modules.map((module) => (
-          <Link 
-            href={module.href} 
-            key={module.name} 
-            className="group"
-          >
-            <Card className="h-full transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:border-primary group-hover:-translate-y-1">
+      <main className="grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {modules.map((module) => {
+          const cardContent = (
+            <Card 
+              className={cn(
+                "h-full transition-all duration-300 ease-in-out relative",
+                module.disabled 
+                  ? "opacity-50 cursor-not-allowed"
+                  : "group-hover:shadow-lg group-hover:border-primary group-hover:-translate-y-1"
+              )}
+            >
+              {module.disabled && (
+                <Badge variant="secondary" className="absolute top-4 right-4 z-10">
+                  Coming Soon
+                </Badge>
+              )}
               <CardHeader className="flex flex-row items-center gap-4">
                 <div className="bg-primary/10 text-primary p-3 rounded-lg">
                   <module.icon className="h-8 w-8" />
@@ -61,14 +78,33 @@ export default function ModuleSelectPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                 <div className="flex justify-end items-center text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span>Enter Portal</span>
-                    <ChevronRight className="h-4 w-4 ml-1"/>
+                 <div className={cn(
+                    "flex justify-end items-center text-sm text-primary transition-opacity",
+                    !module.disabled && "opacity-0 group-hover:opacity-100"
+                  )}>
+                    {!module.disabled && (
+                        <>
+                         <span>Enter Portal</span>
+                         <ChevronRight className="h-4 w-4 ml-1"/>
+                        </>
+                    )}
                  </div>
               </CardContent>
             </Card>
-          </Link>
-        ))}
+          );
+          
+          return module.disabled ? (
+            <div key={module.name}>{cardContent}</div>
+          ) : (
+            <Link 
+              href={module.href} 
+              key={module.name} 
+              className="group"
+            >
+              {cardContent}
+            </Link>
+          );
+        })}
       </main>
        <footer className="mt-8">
         <Button variant="link" asChild>
