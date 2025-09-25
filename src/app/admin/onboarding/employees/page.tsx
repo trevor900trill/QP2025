@@ -262,7 +262,7 @@ export default function EmployeesPage() {
           style: "currency",
           currency: "KES",
         }).format(amount);
-        return <div className="text-right font-medium">{formatted}</div>;
+        return <div className="font-medium">{formatted}</div>;
       },
     },
     {
