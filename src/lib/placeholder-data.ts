@@ -15,12 +15,126 @@ export const companies: Company[] = [
 ];
 
 export const employees: Employee[] = [
-  { id: 'E001', name: 'Frank Green', email: 'frank@innovate.com', department: 'Engineering', role: 'Software Engineer', grossPay: 120000, status: 'Active', companyId: 'C001', avatar: 'https://i.pravatar.cc/150?u=6' },
-  { id: 'E002', name: 'Grace Hall', email: 'grace@innovate.com', department: 'Marketing', role: 'Marketing Manager', grossPay: 150000, status: 'Active', companyId: 'C001', avatar: 'https://i.pravatar.cc/150?u=7' },
-  { id: 'E003', name: 'Henry King', email: 'henry@synergy.com', department: 'Sales', role: 'Sales Executive', grossPay: 95000, status: 'Onboarding', companyId: 'C002', avatar: 'https://i.pravatar.cc/150?u=8' },
-  { id: 'E004', name: 'Ivy Lewis', email: 'ivy@quantum.com', department: 'HR', role: 'HR Specialist', grossPay: 85000, status: 'Active', companyId: 'C003', avatar: 'https://i.pravatar.cc/150?u=9' },
-  { id: 'E005', name: 'Jack Moore', email: 'jack@quantum.com', department: 'Engineering', role: 'Lead Engineer', grossPay: 180000, status: 'Terminated', companyId: 'C003', avatar: 'https://i.pravatar.cc/150?u=10' },
-  { id: 'E006', name: 'Kendall Nelson', email: 'kendall@synergy.com', department: 'Operations', role: 'Operations Lead', grossPay: 110000, status: 'Active', companyId: 'C002', avatar: 'https://i.pravatar.cc/150?u=11' },
+  { 
+    id: 'E001', name: 'Frank Green', email: 'frank@innovate.com', department: 'Engineering', role: 'Software Engineer', grossPay: 120000, status: 'Active', companyId: 'C001', avatar: 'https://i.pravatar.cc/150?u=6',
+    selfOnboardRecipientEmail: "frank@innovate.com",
+    departmentId: 'Engineering',
+    employmentTypeId: "Full-Time",
+    title: "Software Engineer",
+    firstName: "Frank",
+    surname: "Green",
+    dob: "1990-05-15",
+    gender: "Male",
+    idNumber: "12345678",
+    nationality: "American",
+    grossPayKES: 120000,
+    currencyName: "USD",
+    convertionRate: 1,
+    importanceRank: 3,
+    isDepartmentHead: false,
+    address: {
+      country: "USA",
+      address: "123 Tech Avenue",
+      postCode: "94103",
+      city: "San Francisco",
+      mobileNumber: "555-0101",
+      personalEmail: "frank.g@personal.com"
+    },
+    kraDetail: {
+      employeePIN: "A001234567B",
+      employeeNSSF: "NSSF112233",
+      employeeNHIF: "NHIF445566"
+    },
+    employeeWorkDetails: {
+      workId: "FG001",
+      workEmail: "frank@innovate.com",
+      dateOfEmployment: "2022-01-10",
+      isTerminated: false
+    },
+    employeePersonalDetail: {
+      maritalStatus: "Single",
+      levelOfEducation: "Masters Degree",
+      emergencyContactName: "Fiona Green",
+      emergencyContactPhone: "555-0102"
+    },
+    employeeReferee: {
+      names: "Dr. Evelyn Reed",
+      email: "e.reed@university.edu",
+      phoneNumber: "555-0103"
+    },
+    employeeBanking: {
+      bankId: "Chase",
+      accountName: "Frank Green",
+      accountNumber: "9876543210"
+    },
+    employmentTypeSetting: {
+      deductNHIF: true,
+      deductNSSF: true,
+      deductHousingLevy: true,
+      isResident: true,
+      employmentTypeId: "Full-Time"
+    }
+  },
+  { 
+    id: 'E002', name: 'Grace Hall', email: 'grace@innovate.com', department: 'Marketing', role: 'Marketing Manager', grossPay: 150000, status: 'Active', companyId: 'C001', avatar: 'https://i.pravatar.cc/150?u=7',
+    selfOnboardRecipientEmail: "grace@innovate.com",
+    departmentId: 'Marketing',
+    employmentTypeId: "Full-Time",
+    title: "Marketing Manager",
+    firstName: "Grace",
+    surname: "Hall",
+    dob: "1988-11-20",
+    gender: "Female",
+    idNumber: "87654321",
+    nationality: "Canadian",
+    grossPayKES: 150000,
+    currencyName: "USD",
+    convertionRate: 1,
+    importanceRank: 4,
+    isDepartmentHead: true,
+    address: {
+      country: "Canada",
+      address: "456 Marketing Blvd",
+      postCode: "M5V 2T6",
+      city: "Toronto",
+      mobileNumber: "555-0201",
+      personalEmail: "grace.h@personal.com"
+    },
+    kraDetail: {
+      employeePIN: "A008765432C",
+      employeeNSSF: "NSSF223344",
+      employeeNHIF: "NHIF556677"
+    },
+    employeeWorkDetails: {
+      workId: "GH001",
+      workEmail: "grace@innovate.com",
+      dateOfEmployment: "2021-03-15",
+      isTerminated: false
+    },
+    employeePersonalDetail: {
+      maritalStatus: "Married",
+      levelOfEducation: "Bachelors Degree",
+      emergencyContactName: "George Hall",
+      emergencyContactPhone: "555-0202"
+    },
+    employeeReferee: {
+      names: "Mr. Alan Vane",
+      email: "alan.vane@oldcorp.com",
+      phoneNumber: "555-0203"
+    },
+    employeeBanking: {
+      bankId: "TD Bank",
+      accountName: "Grace Hall",
+      accountNumber: "1234509876"
+    },
+    employmentTypeSetting: {
+      deductNHIF: true,
+      deductNSSF: true,
+      deductHousingLevy: false,
+      isResident: false,
+      employmentTypeId: "Full-Time"
+    }
+  },
 ];
 
 export const payslips: Payslip[] = [
