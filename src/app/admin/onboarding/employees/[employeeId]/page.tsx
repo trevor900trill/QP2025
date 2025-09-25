@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import {
   ArrowLeft,
   Briefcase,
@@ -55,11 +55,8 @@ const detailCards = [
   { title: "Life Insurance", icon: ShieldCheck, isModal: false, href: "life-insurance" },
 ];
 
-export default function EmployeeProfilePage({
-  params,
-}: {
-  params: { employeeId: string };
-}) {
+export default function EmployeeProfilePage() {
+  const params = useParams<{ employeeId: string }>();
   const employee = employees.find((e) => e.id === params.employeeId);
 
   if (!employee) {
