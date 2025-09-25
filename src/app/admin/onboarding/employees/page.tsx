@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle, UsersRound, Trash2 } from "lucide-react";
+import { MoreHorizontal, PlusCircle, UsersRound, Trash2, Eye } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +20,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "@/components/shared/DataTable";
-import type { Employee, Company } from "@/lib/definitions";
+import type { Employee } from "@/lib/definitions";
 import { employees as initialEmployees, companies } from "@/lib/placeholder-data";
 import { useCompany } from "@/context/CompanyContext";
 import { Card } from "@/components/ui/card";
@@ -44,7 +45,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
 const employeeSchema = z.object({
@@ -61,8 +61,7 @@ export default function EmployeesPage() {
   const { selectedCompany } = useCompany();
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [employees, setEmployees] = React.useState<Employee[]>(initialEmployees);
-  const [isFormOpen, setIsFormOpen] = React.useState(false);
-  const [editingEmployee, setEditingEmployee] = React.useState<Employee | null>(null);
+  const [isAddFormOpen, setIsAddFormOpen] = React.useState(false);
   const { toast } = useToast();
 
   const filteredEmployees = React.useMemo(() => {
@@ -84,45 +83,30 @@ export default function EmployeesPage() {
   });
 
   React.useEffect(() => {
-    if (editingEmployee) {
-      form.reset(editingEmployee);
-    } else {
-      form.reset({
-          name: "",
-          email: "",
-          department: "",
-          role: "",
-          grossPay: 0,
-          companyId: selectedCompany?.id || companies[0].id,
-          status: "Onboarding",
-      });
-    }
-  }, [editingEmployee, form, selectedCompany]);
+    form.reset({
+        name: "",
+        email: "",
+        department: "",
+        role: "",
+        grossPay: 0,
+        companyId: selectedCompany?.id || companies[0].id,
+        status: "Onboarding",
+    });
+  }, [form, selectedCompany]);
   
-  const openForm = (employee: Employee | null = null) => {
-    setEditingEmployee(employee);
-    setIsFormOpen(true);
-  };
-
   const closeForm = () => {
-    setIsFormOpen(false);
-    setEditingEmployee(null);
+    setIsAddFormOpen(false);
     form.reset();
   };
 
   const onSubmit = (data: z.infer<typeof employeeSchema>) => {
-    if (editingEmployee) {
-      setEmployees(employees.map(e => e.id === editingEmployee.id ? { ...e, ...data } : e));
-      toast({ title: "Employee Updated", description: `${data.name} has been updated.` });
-    } else {
-      const newEmployee: Employee = {
-        id: `E${String(employees.length + 1).padStart(3, '0')}`,
-        ...data,
-        avatar: `https://i.pravatar.cc/150?u=${employees.length + 20}`,
-      };
-      setEmployees([newEmployee, ...employees]);
-      toast({ title: "Employee Added", description: `${data.name} has been added to onboarding.` });
-    }
+    const newEmployee: Employee = {
+      id: `E${String(employees.length + 1).padStart(3, '0')}`,
+      ...data,
+      avatar: `https://i.pravatar.cc/150?u=${employees.length + 20}`,
+    };
+    setEmployees([newEmployee, ...employees]);
+    toast({ title: "Employee Added", description: `${data.name} has been added to onboarding.` });
     closeForm();
   };
 
@@ -199,8 +183,11 @@ export default function EmployeesPage() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => openForm(employee)}>
-                  Edit employee
+                <DropdownMenuItem asChild>
+                  <Link href={`/admin/onboarding/employees/${employee.id}`}>
+                    <Eye className="mr-2 h-4 w-4" />
+                    View Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigator.clipboard.writeText(employee.id)}>
                   Copy Employee ID
@@ -233,7 +220,7 @@ export default function EmployeesPage() {
   ];
 
   const actionButton = (
-    <Button onClick={() => openForm()}>
+    <Button onClick={() => setIsAddFormOpen(true)}>
       <PlusCircle className="mr-2 h-4 w-4" />
       Add Employee
     </Button>
@@ -252,10 +239,10 @@ export default function EmployeesPage() {
             actionButton={actionButton}
         />
       </Card>
-       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+       <Dialog open={isAddFormOpen} onOpenChange={setIsAddFormOpen}>
         <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
           <DialogHeader>
-            <DialogTitle>{editingEmployee ? 'Edit Employee' : 'Add New Employee'}</DialogTitle>
+            <DialogTitle>Add New Employee</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

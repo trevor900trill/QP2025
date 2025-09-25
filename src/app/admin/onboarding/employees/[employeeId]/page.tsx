@@ -1,0 +1,158 @@
+"use client";
+
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import {
+  ArrowLeft,
+  Briefcase,
+  User,
+  HeartHand,
+  Receipt,
+  Home,
+  ShieldCheck,
+  UserSquare,
+  ExternalLink,
+  Trash2,
+  Landmark,
+  PiggyBank
+} from "lucide-react";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { employees } from "@/lib/placeholder-data";
+import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
+
+const detailCards = [
+  { title: "Work Details", icon: Briefcase, isModal: true },
+  { title: "Salary Details", icon: PiggyBank, isModal: true },
+  { title: "Personal Information", icon: User, isModal: true },
+  { title: "Benefits", icon: HeartHand, isModal: false, href: "benefits" },
+  { title: "Deductions", icon: Receipt, isModal: false, href: "deductions" },
+  { title: "Mortgage", icon: Home, isModal: false, href: "mortgage" },
+  { title: "Life Insurance", icon: ShieldCheck, isModal: false, href: "life-insurance" },
+];
+
+export default function EmployeeProfilePage({
+  params,
+}: {
+  params: { employeeId: string };
+}) {
+  const employee = employees.find((e) => e.id === params.employeeId);
+
+  if (!employee) {
+    notFound();
+  }
+
+  return (
+    <>
+      <div className="mb-4">
+        <Button variant="link" asChild className="px-0">
+          <Link href="/admin/onboarding/employees">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Employees
+          </Link>
+        </Button>
+      </div>
+
+      <AnimatedPageHeader
+        title={employee.name}
+        icon={UserSquare}
+        iconAnimation="breathe"
+      />
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {detailCards.map((card) =>
+          card.isModal ? (
+            <Dialog key={card.title}>
+              <DialogTrigger asChild>
+                <Card className="group cursor-pointer hover:border-primary transition-colors">
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="text-lg font-medium">
+                      {card.title}
+                    </CardTitle>
+                    <card.icon className="h-5 w-5 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-sm text-primary flex items-center">
+                      Edit {card.title.toLowerCase()}
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Edit {card.title}</DialogTitle>
+                </DialogHeader>
+                {/* Placeholder for form */}
+                <p>Form for editing {card.title.toLowerCase()} goes here.</p>
+              </DialogContent>
+            </Dialog>
+          ) : (
+            <Link href={`/admin/onboarding/employees/${employee.id}/${card.href}`} key={card.title}>
+              <Card className="group h-full hover:border-primary transition-colors">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-lg font-medium">
+                    {card.title}
+                  </CardTitle>
+                  <card.icon className="h-5 w-5 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-sm text-primary flex items-center">
+                    Manage {card.title.toLowerCase()}
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          )
+        )}
+      </div>
+      <div className="mt-8">
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant="destructive">
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Terminate Employee
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure you want to terminate this employee?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action will change the employee's status to "Terminated" and restrict their access. It cannot be undone easily.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>Confirm Termination</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </>
+  );
+}
