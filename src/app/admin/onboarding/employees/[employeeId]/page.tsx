@@ -17,7 +17,8 @@ import {
   PiggyBank,
   MapPin,
   Users as UsersIcon,
-  FileText
+  FileText,
+  Gift
 } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+import { Separator } from "@/components/ui/separator";
 
 const detailCards = [
     { title: "Banking Details", icon: Landmark, isModal: true },
@@ -57,6 +59,13 @@ const detailCards = [
     { title: "Referee Details", icon: UsersIcon, isModal: true },
     { title: "Salary Details", icon: PiggyBank, isModal: true },
 ];
+
+const financialCards = [
+    { title: "Benefits", icon: HeartHandshake, href: "benefits"},
+    { title: "Deductions", icon: Receipt, href: "deductions"},
+    { title: "Mortgage", icon: Home, href: "mortgage"},
+    { title: "Life Insurance", icon: ShieldCheck, href: "life-insurance"},
+]
 
 export default function EmployeeProfilePage() {
   const params = useParams<{ employeeId: string }>();
@@ -82,10 +91,10 @@ export default function EmployeeProfilePage() {
         icon={UserSquare}
         iconAnimation="breathe"
       />
-
+      
+      <h2 className="text-xl font-semibold mb-4">Personal & Work Details</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {detailCards.map((card) =>
-          card.isModal ? (
+        {detailCards.map((card) => (
             <Dialog key={card.title}>
               <DialogTrigger asChild>
                 <Card className="group cursor-pointer hover:border-primary transition-colors">
@@ -111,8 +120,16 @@ export default function EmployeeProfilePage() {
                 <p>Form for editing {card.title.toLowerCase()} goes here.</p>
               </DialogContent>
             </Dialog>
-          ) : (
-            <Link href={`/admin/onboarding/employees/${employee.id}/${(card as any).href}`} key={card.title}>
+          )
+        )}
+      </div>
+
+      <Separator className="my-8" />
+      
+      <h2 className="text-xl font-semibold mb-4">Financial Details</h2>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {financialCards.map((card) =>
+            <Link href={`/admin/onboarding/employees/${employee.id}/${card.href}`} key={card.title}>
               <Card className="group h-full hover:border-primary transition-colors">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-lg font-medium">
@@ -128,9 +145,9 @@ export default function EmployeeProfilePage() {
                 </CardContent>
               </Card>
             </Link>
-          )
         )}
       </div>
+      
       <div className="mt-8">
         <AlertDialog>
             <AlertDialogTrigger asChild>
