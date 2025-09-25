@@ -14,7 +14,10 @@ import {
   ExternalLink,
   Trash2,
   Landmark,
-  PiggyBank
+  PiggyBank,
+  MapPin,
+  Users as UsersIcon,
+  FileText
 } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
@@ -46,13 +49,13 @@ import {
   } from "@/components/ui/alert-dialog"
 
 const detailCards = [
-  { title: "Work Details", icon: Briefcase, isModal: true },
-  { title: "Salary Details", icon: PiggyBank, isModal: true },
-  { title: "Personal Information", icon: User, isModal: true },
-  { title: "Benefits", icon: HeartHandshake, isModal: false, href: "benefits" },
-  { title: "Deductions", icon: Receipt, isModal: false, href: "deductions" },
-  { title: "Mortgage", icon: Home, isModal: false, href: "mortgage" },
-  { title: "Life Insurance", icon: ShieldCheck, isModal: false, href: "life-insurance" },
+    { title: "Banking Details", icon: Landmark, isModal: true },
+    { title: "Address Details", icon: MapPin, isModal: true },
+    { title: "KRA Details", icon: FileText, isModal: true },
+    { title: "Work Details", icon: Briefcase, isModal: true },
+    { title: "Personal Details", icon: User, isModal: true },
+    { title: "Referee Details", icon: UsersIcon, isModal: true },
+    { title: "Salary Details", icon: PiggyBank, isModal: true },
 ];
 
 export default function EmployeeProfilePage() {
@@ -109,7 +112,7 @@ export default function EmployeeProfilePage() {
               </DialogContent>
             </Dialog>
           ) : (
-            <Link href={`/admin/onboarding/employees/${employee.id}/${card.href}`} key={card.title}>
+            <Link href={`/admin/onboarding/employees/${employee.id}/${(card as any).href}`} key={card.title}>
               <Card className="group h-full hover:border-primary transition-colors">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-lg font-medium">
