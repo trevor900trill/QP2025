@@ -23,7 +23,8 @@ import {
   Heart,
   School,
   ShieldAlert,
-  ClipboardUser,
+  ClipboardList,
+  Calendar,
 } from "lucide-react"
 
 import { employees } from "@/lib/placeholder-data"
@@ -143,7 +144,7 @@ export default function EmployeeDetailsPage() {
                 <InfoPill icon={Mail} label="Work Email" value={<a href={`mailto:${employee.employeeWorkDetails.workEmail}`} className="text-primary hover:underline">{employee.employeeWorkDetails.workEmail}</a>} />
                 <InfoPill icon={Calendar} label="Date of Employment" value={new Date(employee.employeeWorkDetails.dateOfEmployment).toLocaleDateString()} />
                 <InfoPill icon={Building} label="Department" value={employee.department} />
-                <InfoPill icon={ClipboardUser} label="Employment Type" value={employee.employmentTypeId} />
+                <InfoPill icon={ClipboardList} label="Employment Type" value={employee.employmentTypeId} />
                  <InfoPill icon={User} label="Department Head" value={employee.isDepartmentHead ? 'Yes' : 'No'} />
             </DetailSection>
 
