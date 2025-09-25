@@ -64,7 +64,7 @@ const columns: ColumnDef<Payslip>[] = [
 export default function PayslipsPage() {
   return (
     <>
-      <PageHeader title="My Payslips" description="View and download your past payslips." />
+      <PageHeader title="My Payslips" description="View and download your past payslips." backHref="/employee/profile" backText="Back to Profile" />
       <Card>
         <DataTable columns={columns} data={payslips} searchKey="period" />
       </Card>

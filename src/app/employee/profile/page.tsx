@@ -1,162 +1,181 @@
-"use client";
+"use client"
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import * as React from "react"
+import Link from "next/link"
+import {
+  User,
+  MapPin,
+  Briefcase,
+  Landmark,
+  FileText,
+  Users as UsersIcon,
+  Phone,
+  Mail,
+  Cake,
+  Wallet,
+  Building,
+  Venus,
+  Flag,
+  Fingerprint,
+  BookUser,
+  Heart,
+  School,
+  ClipboardList,
+  Calendar,
+  FilePenLine,
+} from "lucide-react"
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PageHeader } from "@/components/shared/PageHeader";
-import { useToast } from "@/hooks/use-toast";
-import { Separator } from "@/components/ui/separator";
+import { employees } from "@/lib/placeholder-data"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import type { Employee } from "@/lib/definitions"
+import { PageHeader } from "@/components/shared/PageHeader"
 
-const profileSchema = z.object({
-  firstName: z.string().min(2, "First name is too short"),
-  lastName: z.string().min(2, "Last name is too short"),
-  personalEmail: z.string().email("Invalid email address"),
-  phoneNumber: z.string().min(10, "Invalid phone number"),
-  address: z.string().min(5, "Address is too short"),
-  emergencyContactName: z.string().min(2, "Name is too short"),
-  emergencyContactPhone: z.string().min(10, "Invalid phone number"),
-});
+const InfoPill = ({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ElementType
+  label: string
+  value: string | React.ReactNode
+}) =>
+  value ? (
+    <div className="flex items-start gap-4">
+      <Icon className="h-5 w-5 text-muted-foreground mt-1" />
+      <div>
+        <p className="text-sm text-muted-foreground">{label}</p>
+        <p className="font-medium">{value}</p>
+      </div>
+    </div>
+  ) : null
 
-export default function ProfilePage() {
-  const { toast } = useToast();
-  
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      firstName: "Charlie",
-      lastName: "Brown",
-      personalEmail: "charlie.personal@email.com",
-      phoneNumber: "+1 (555) 123-4567",
-      address: "123 Innovation Drive, Tech City, 10101",
-      emergencyContactName: "Sally Brown",
-      emergencyContactPhone: "+1 (555) 987-6543",
-    },
-  });
+const DetailSection = ({
+  title,
+  icon,
+  children,
+}: {
+  title: string
+  icon: React.ElementType
+  children: React.ReactNode
+}) => (
+  <Card>
+    <CardHeader>
+      <CardTitle className="flex items-center gap-2 text-lg">
+        {React.createElement(icon, { className: "h-5 w-5" })}
+        {title}
+      </CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-4">{children}</CardContent>
+  </Card>
+)
 
-  function onSubmit(data: z.infer<typeof profileSchema>) {
-    console.log("Profile updated:", data);
-    toast({
-      title: "Profile Updated",
-      description: "Your changes have been successfully saved.",
-    });
+export default function EmployeeDetailsPage() {
+  const employee = employees.find(e => e.id === 'E001') as Employee | undefined
+
+  if (!employee) {
+    return <p>Employee not found.</p>;
   }
 
   return (
     <>
-      <PageHeader title="Edit Profile" description="Update your personal and contact information." />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Personal Details</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="personalEmail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Personal Email</FormLabel>
-                    <FormControl><Input type="email" {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Home Address</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-           
-          <Card>
-            <CardHeader>
-              <CardTitle>Emergency Contact</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="emergencyContactName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Name</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="emergencyContactPhone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Phone</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-          
-          <div className="flex justify-end">
-            <Button type="submit">Save Changes</Button>
+      <PageHeader title="My Profile" description="A detailed summary of your personal and employment information.">
+        <Button asChild>
+            <Link href="/employee/profile/edit">
+                <FilePenLine className="mr-2 h-4 w-4" />
+                Edit Profile
+            </Link>
+        </Button>
+      </PageHeader>
+      
+      <header className="mb-8 flex flex-col md:flex-row md:items-center gap-4">
+        <Avatar className="h-24 w-24 border-4 border-primary/20">
+          <AvatarImage src={employee.avatar} alt={employee.name} />
+          <AvatarFallback>
+            {employee.firstName?.[0]}
+            {employee.surname?.[0]}
+          </AvatarFallback>
+        </Avatar>
+        <div>
+          <h1 className="text-3xl font-bold">{`${employee.firstName} ${employee.surname}`}</h1>
+          <p className="text-muted-foreground">{employee.title}</p>
+          <div className="flex gap-2 mt-2">
+            <Badge variant="secondary">{employee.department}</Badge>
+            <Badge
+              variant={
+                employee.status === "Active"
+                  ? "default"
+                  : employee.status === "Onboarding"
+                  ? "secondary"
+                  : "destructive"
+              }
+            >
+              {employee.status}
+            </Badge>
           </div>
-        </form>
-      </Form>
+        </div>
+      </header>
+
+      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="xl:col-span-1 flex flex-col gap-6">
+           <DetailSection title="Personal Information" icon={User}>
+                <InfoPill icon={User} label="Full Name" value={`${employee.firstName} ${employee.middleName || ''} ${employee.surname}`} />
+                <InfoPill icon={Cake} label="Date of Birth" value={new Date(employee.dob).toLocaleDateString()} />
+                <InfoPill icon={Venus} label="Gender" value={employee.gender} />
+                <InfoPill icon={Flag} label="Nationality" value={employee.nationality} />
+                <InfoPill icon={Fingerprint} label="ID Number" value={employee.idNumber} />
+                {employee.passportNumber && <InfoPill icon={BookUser} label="Passport Number" value={employee.passportNumber} />}
+           </DetailSection>
+            <DetailSection title="Contact Details" icon={Phone}>
+                <InfoPill icon={Mail} label="Personal Email" value={<a href={`mailto:${employee.address.personalEmail}`} className="text-primary hover:underline">{employee.address.personalEmail}</a>} />
+                <InfoPill icon={Phone} label="Mobile Number" value={employee.address.mobileNumber} />
+                <Separator />
+                <InfoPill icon={MapPin} label="Address" value={`${employee.address.address}, ${employee.address.city}, ${employee.address.postCode}, ${employee.address.country}`} />
+            </DetailSection>
+        </div>
+
+        <div className="xl:col-span-1 flex flex-col gap-6">
+            <DetailSection title="Work & Employment" icon={Briefcase}>
+                <InfoPill icon={Mail} label="Work Email" value={<a href={`mailto:${employee.employeeWorkDetails.workEmail}`} className="text-primary hover:underline">{employee.employeeWorkDetails.workEmail}</a>} />
+                <InfoPill icon={Calendar} label="Date of Employment" value={new Date(employee.employeeWorkDetails.dateOfEmployment).toLocaleDateString()} />
+                <InfoPill icon={Building} label="Department" value={employee.department} />
+                <InfoPill icon={ClipboardList} label="Employment Type" value={employee.employmentTypeId} />
+                 <InfoPill icon={User} label="Department Head" value={employee.isDepartmentHead ? 'Yes' : 'No'} />
+            </DetailSection>
+
+             <DetailSection title="Statutory Details" icon={FileText}>
+                <InfoPill icon={FileText} label="KRA PIN" value={employee.kraDetail.employeePIN} />
+                <InfoPill icon={FileText} label="NSSF Number" value={employee.kraDetail.employeeNSSF} />
+                <InfoPill icon={FileText} label="NHIF Number" value={employee.kraDetail.employeeNHIF} />
+            </DetailSection>
+        </div>
+
+         <div className="xl:col-span-1 flex flex-col gap-6">
+            <DetailSection title="Financials" icon={Wallet}>
+                <InfoPill icon={Wallet} label="Gross Pay (KES)" value={new Intl.NumberFormat('en-US', { style: 'currency', currency: 'KES' }).format(employee.grossPayKES)} />
+                <InfoPill icon={Landmark} label="Bank" value={employee.employeeBanking.bankId} />
+                <InfoPill icon={User} label="Account Name" value={employee.employeeBanking.accountName} />
+                <InfoPill icon={Wallet} label="Account Number" value={employee.employeeBanking.accountNumber} />
+            </DetailSection>
+            
+            <DetailSection title="Additional Details" icon={UsersIcon}>
+                <InfoPill icon={Heart} label="Marital Status" value={employee.employeePersonalDetail.maritalStatus} />
+                 <InfoPill icon={School} label="Education Level" value={employee.employeePersonalDetail.levelOfEducation} />
+                 <Separator />
+                 <p className="font-medium text-sm">Emergency Contact</p>
+                 <InfoPill icon={User} label="Name" value={employee.employeePersonalDetail.emergencyContactName} />
+                 <InfoPill icon={Phone} label="Phone" value={employee.employeePersonalDetail.emergencyContactPhone} />
+                 <Separator />
+                 <p className="font-medium text-sm">Referee</p>
+                 <InfoPill icon={User} label="Name" value={employee.employeeReferee.names} />
+                 <InfoPill icon={Mail} label="Email" value={employee.employeeReferee.email} />
+                 <InfoPill icon={Phone} label="Phone" value={employee.employeeReferee.phoneNumber} />
+            </DetailSection>
+        </div>
+      </div>
     </>
-  );
+  )
 }

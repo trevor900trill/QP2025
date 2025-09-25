@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, UserCircle, FileText } from "lucide-react";
+import { UserCircle, FileText } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/sidebar";
 
 const employeeNavItems = [
-    { href: "/employee/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/employee/profile", label: "Profile Details", icon: UserCircle },
     { href: "/employee/payslips", label: "Payslips", icon: FileText },
 ];
@@ -35,7 +34,7 @@ export function EmployeeSidebar() {
                     {employeeNavItems.map((item) => (
                         <SidebarMenuItem key={item.href}>
                             <Link href={item.href}>
-                                <SidebarMenuButton isActive={pathname === item.href}>
+                                <SidebarMenuButton isActive={pathname.startsWith(item.href)}>
                                     <item.icon className="w-4 h-4" />
                                     <span>{item.label}</span>
                                 </SidebarMenuButton>
