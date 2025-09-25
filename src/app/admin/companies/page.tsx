@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle, Building, Trash2, ClipboardCheck } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Building, Trash2, ClipboardCheck, FilePenLine } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +14,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
@@ -159,9 +158,9 @@ export default function CompaniesPage() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                    <Link href={`/admin/companies/${company.id}/edit`}>
+                        <FilePenLine className="mr-2 h-4 w-4" />
                         Edit company
                     </Link>
                 </DropdownMenuItem>
