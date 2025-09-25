@@ -17,13 +17,12 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "@/components/shared/DataTable";
 import type { Employee } from "@/lib/definitions";
 import { employees as initialEmployees, companies } from "@/lib/placeholder-data";
 import { useCompany } from "@/context/CompanyContext";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { AnimatedPageHeader } from "@/components/shared/AnimatedPageHeader";
 import {
   Dialog,
@@ -352,184 +351,169 @@ export default function EmployeesPage() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[60vh] overflow-y-auto p-2">
                 {currentStep === 0 && (
-                    <Card>
-                        <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
-                        <CardContent className="space-y-4">
-                             <FormField control={form.control} name="title" render={({ field }) => (
-                                <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="Software Engineer" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                            <div className="grid grid-cols-3 gap-4">
-                                <FormField control={form.control} name="firstName" render={({ field }) => (
-                                    <FormItem><FormLabel>First Name</FormLabel><FormControl><Input placeholder="Jane" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="middleName" render={({ field }) => (
-                                    <FormItem><FormLabel>Middle Name</FormLabel><FormControl><Input placeholder="M." {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="surname" render={({ field }) => (
-                                    <FormItem><FormLabel>Surname</FormLabel><FormControl><Input placeholder="Doe" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                             <FormField control={form.control} name="selfOnboardRecipientEmail" render={({ field }) => (
-                                <FormItem><FormLabel>Onboarding Email</FormLabel><FormControl><Input type="email" placeholder="jane@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                             <div className="grid grid-cols-2 gap-4">
-                                <FormField control={form.control} name="departmentId" render={({ field }) => (
-                                    <FormItem><FormLabel>Department</FormLabel><FormControl><Input placeholder="Engineering" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employmentTypeId" render={({ field }) => (
-                                    <FormItem><FormLabel>Employment Type</FormLabel><FormControl><Input placeholder="Full-Time" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <div className="space-y-4">
+                        <FormField control={form.control} name="title" render={({ field }) => (
+                        <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="Software Engineer" {...field} /></FormControl><FormMessage /></FormItem>
+                    )} />
+                    <div className="grid grid-cols-3 gap-4">
+                        <FormField control={form.control} name="firstName" render={({ field }) => (
+                            <FormItem><FormLabel>First Name</FormLabel><FormControl><Input placeholder="Jane" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="middleName" render={({ field }) => (
+                            <FormItem><FormLabel>Middle Name</FormLabel><FormControl><Input placeholder="M." {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="surname" render={({ field }) => (
+                            <FormItem><FormLabel>Surname</FormLabel><FormControl><Input placeholder="Doe" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                    </div>
+                        <FormField control={form.control} name="selfOnboardRecipientEmail" render={({ field }) => (
+                        <FormItem><FormLabel>Onboarding Email</FormLabel><FormControl><Input type="email" placeholder="jane@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                    )} />
+                        <div className="grid grid-cols-2 gap-4">
+                        <FormField control={form.control} name="departmentId" render={({ field }) => (
+                            <FormItem><FormLabel>Department</FormLabel><FormControl><Input placeholder="Engineering" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="employmentTypeId" render={({ field }) => (
+                            <FormItem><FormLabel>Employment Type</FormLabel><FormControl><Input placeholder="Full-Time" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                    </div>
+                    </div>
                 )}
                 {currentStep === 1 && (
-                    <Card>
-                        <CardHeader><CardTitle>Personal & Contact Details</CardTitle></CardHeader>
-                        <CardContent className="space-y-4">
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField control={form.control} name="dob" render={({ field }) => (
+                                <FormItem><FormLabel>Date of Birth</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="gender" render={({ field }) => (
+                                <FormItem><FormLabel>Gender</FormLabel><FormControl><Input placeholder="Female" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
                             <div className="grid grid-cols-2 gap-4">
-                                <FormField control={form.control} name="dob" render={({ field }) => (
-                                    <FormItem><FormLabel>Date of Birth</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="gender" render={({ field }) => (
-                                    <FormItem><FormLabel>Gender</FormLabel><FormControl><Input placeholder="Female" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                             <div className="grid grid-cols-2 gap-4">
-                                <FormField control={form.control} name="idNumber" render={({ field }) => (
-                                    <FormItem><FormLabel>ID Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="nationality" render={({ field }) => (
-                                    <FormItem><FormLabel>Nationality</FormLabel><FormControl><Input placeholder="Kenyan" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                             <FormField control={form.control} name="passportNumber" render={({ field }) => (
-                                <FormItem><FormLabel>Passport Number (Optional)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormField control={form.control} name="idNumber" render={({ field }) => (
+                                <FormItem><FormLabel>ID Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                             )} />
-                             <Separator />
-                             <FormField control={form.control} name="address.personalEmail" render={({ field }) => (
-                                <FormItem><FormLabel>Personal Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormField control={form.control} name="nationality" render={({ field }) => (
+                                <FormItem><FormLabel>Nationality</FormLabel><FormControl><Input placeholder="Kenyan" {...field} /></FormControl><FormMessage /></FormItem>
                             )} />
-                            <FormField control={form.control} name="address.mobileNumber" render={({ field }) => (
-                                <FormItem><FormLabel>Mobile Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                        </div>
+                            <FormField control={form.control} name="passportNumber" render={({ field }) => (
+                            <FormItem><FormLabel>Passport Number (Optional)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                            <Separator />
+                            <FormField control={form.control} name="address.personalEmail" render={({ field }) => (
+                            <FormItem><FormLabel>Personal Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="address.mobileNumber" render={({ field }) => (
+                            <FormItem><FormLabel>Mobile Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                            <div className="grid grid-cols-2 gap-4">
+                            <FormField control={form.control} name="address.address" render={({ field }) => (
+                                <FormItem><FormLabel>Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                             )} />
-                             <div className="grid grid-cols-2 gap-4">
-                               <FormField control={form.control} name="address.address" render={({ field }) => (
-                                    <FormItem><FormLabel>Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="address.city" render={({ field }) => (
-                                    <FormItem><FormLabel>City</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="address.postCode" render={({ field }) => (
-                                    <FormItem><FormLabel>Post Code</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                               <FormField control={form.control} name="address.country" render={({ field }) => (
-                                    <FormItem><FormLabel>Country</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                        </CardContent>
-                    </Card>
+                            <FormField control={form.control} name="address.city" render={({ field }) => (
+                                <FormItem><FormLabel>City</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="address.postCode" render={({ field }) => (
+                                <FormItem><FormLabel>Post Code</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="address.country" render={({ field }) => (
+                                <FormItem><FormLabel>Country</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                    </div>
                 )}
                  {currentStep === 2 && (
-                    <Card>
-                        <CardHeader><CardTitle>Statutory & Work Details</CardTitle></CardHeader>
-                        <CardContent className="space-y-4">
-                             <div className="grid grid-cols-3 gap-4">
-                                <FormField control={form.control} name="kraDetail.employeePIN" render={({ field }) => (
-                                    <FormItem><FormLabel>KRA PIN</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="kraDetail.employeeNSSF" render={({ field }) => (
-                                    <FormItem><FormLabel>NSSF No.</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="kraDetail.employeeNHIF" render={({ field }) => (
-                                    <FormItem><FormLabel>NHIF No.</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                            <Separator />
-                            <div className="grid grid-cols-2 gap-4">
-                                <FormField control={form.control} name="employeeWorkDetails.workEmail" render={({ field }) => (
-                                    <FormItem><FormLabel>Work Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                 <FormField control={form.control} name="employeeWorkDetails.dateOfEmployment" render={({ field }) => (
-                                    <FormItem><FormLabel>Employment Date</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                             <FormField control={form.control} name="employmentTypeSetting.isResident" render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                    <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
-                                    <div className="space-y-1 leading-none"><FormLabel>Is Resident?</FormLabel></div>
-                                </FormItem>
+                    <div className="space-y-4">
+                            <div className="grid grid-cols-3 gap-4">
+                            <FormField control={form.control} name="kraDetail.employeePIN" render={({ field }) => (
+                                <FormItem><FormLabel>KRA PIN</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                             )} />
-                        </CardContent>
-                    </Card>
+                            <FormField control={form.control} name="kraDetail.employeeNSSF" render={({ field }) => (
+                                <FormItem><FormLabel>NSSF No.</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="kraDetail.employeeNHIF" render={({ field }) => (
+                                <FormItem><FormLabel>NHIF No.</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                        <Separator />
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField control={form.control} name="employeeWorkDetails.workEmail" render={({ field }) => (
+                                <FormItem><FormLabel>Work Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                                <FormField control={form.control} name="employeeWorkDetails.dateOfEmployment" render={({ field }) => (
+                                <FormItem><FormLabel>Employment Date</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                            <FormField control={form.control} name="employmentTypeSetting.isResident" render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
+                                <div className="space-y-1 leading-none"><FormLabel>Is Resident?</FormLabel></div>
+                            </FormItem>
+                        )} />
+                    </div>
                 )}
                 {currentStep === 3 && (
-                     <Card>
-                        <CardHeader><CardTitle>Salary and Banking</CardTitle></CardHeader>
-                        <CardContent className="space-y-4">
+                     <div className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                                <FormField control={form.control} name="grossPayKES" render={({ field }) => (
+                                <FormItem><FormLabel>Gross Pay</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="currencyName" render={({ field }) => (
+                                <FormItem><FormLabel>Currency</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="convertionRate" render={({ field }) => (
+                                <FormItem><FormLabel>Conversion Rate</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                        <Separator />
                             <div className="grid grid-cols-3 gap-4">
-                                 <FormField control={form.control} name="grossPayKES" render={({ field }) => (
-                                    <FormItem><FormLabel>Gross Pay</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="currencyName" render={({ field }) => (
-                                    <FormItem><FormLabel>Currency</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="convertionRate" render={({ field }) => (
-                                    <FormItem><FormLabel>Conversion Rate</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                            <Separator />
-                             <div className="grid grid-cols-3 gap-4">
-                                <FormField control={form.control} name="employeeBanking.bankId" render={({ field }) => (
-                                    <FormItem><FormLabel>Bank</FormLabel><FormControl><Input placeholder="e.g. KCB" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employeeBanking.accountName" render={({ field }) => (
-                                    <FormItem><FormLabel>Account Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employeeBanking.accountNumber" render={({ field }) => (
-                                    <FormItem><FormLabel>Account Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                        </CardContent>
-                    </Card>
+                            <FormField control={form.control} name="employeeBanking.bankId" render={({ field }) => (
+                                <FormItem><FormLabel>Bank</FormLabel><FormControl><Input placeholder="e.g. KCB" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="employeeBanking.accountName" render={({ field }) => (
+                                <FormItem><FormLabel>Account Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="employeeBanking.accountNumber" render={({ field }) => (
+                                <FormItem><FormLabel>Account Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                    </div>
                 )}
                 {currentStep === 4 && (
-                     <Card>
-                        <CardHeader><CardTitle>Other Details</CardTitle></CardHeader>
-                        <CardContent className="space-y-4">
+                     <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField control={form.control} name="employeePersonalDetail.maritalStatus" render={({ field }) => (
+                                <FormItem><FormLabel>Marital Status</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="employeePersonalDetail.levelOfEducation" render={({ field }) => (
+                                <FormItem><FormLabel>Level of Education</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                        <Separator />
+                        <p className="font-medium text-sm">Emergency Contact</p>
                             <div className="grid grid-cols-2 gap-4">
-                               <FormField control={form.control} name="employeePersonalDetail.maritalStatus" render={({ field }) => (
-                                    <FormItem><FormLabel>Marital Status</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employeePersonalDetail.levelOfEducation" render={({ field }) => (
-                                    <FormItem><FormLabel>Level of Education</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
+                            <FormField control={form.control} name="employeePersonalDetail.emergencyContactName" render={({ field }) => (
+                                <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="employeePersonalDetail.emergencyContactPhone" render={({ field }) => (
+                                <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
                             <Separator />
-                            <p className="font-medium text-sm">Emergency Contact</p>
-                             <div className="grid grid-cols-2 gap-4">
-                                <FormField control={form.control} name="employeePersonalDetail.emergencyContactName" render={({ field }) => (
-                                    <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employeePersonalDetail.emergencyContactPhone" render={({ field }) => (
-                                    <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                             <Separator />
-                            <p className="font-medium text-sm">Referee</p>
-                             <div className="grid grid-cols-3 gap-4">
-                                <FormField control={form.control} name="employeeReferee.names" render={({ field }) => (
-                                    <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employeeReferee.email" render={({ field }) => (
-                                    <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                                <FormField control={form.control} name="employeeReferee.phoneNumber" render={({ field }) => (
-                                    <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                )} />
-                            </div>
-                        </CardContent>
-                    </Card>
+                        <p className="font-medium text-sm">Referee</p>
+                            <div className="grid grid-cols-3 gap-4">
+                            <FormField control={form.control} name="employeeReferee.names" render={({ field }) => (
+                                <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="employeeReferee.email" render={({ field }) => (
+                                <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                            <FormField control={form.control} name="employeeReferee.phoneNumber" render={({ field }) => (
+                                <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )} />
+                        </div>
+                    </div>
                 )}
             </form>
           </Form>
