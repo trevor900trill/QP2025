@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle, Building, Trash2 } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Building, Trash2, ClipboardCheck } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -159,11 +160,16 @@ export default function CompaniesPage() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => openForm(company)}>
-                  Edit company
+                <DropdownMenuItem asChild>
+                   <Link href={`/admin/companies/${company.id}/edit`}>
+                        Edit company
+                    </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigator.clipboard.writeText(company.id)}>
-                  Copy Company ID
+                 <DropdownMenuItem asChild>
+                   <Link href={`/admin/companies/${company.id}/mandates`}>
+                        <ClipboardCheck className="mr-2 h-4 w-4" />
+                        Mandates
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <AlertDialogTrigger asChild>
@@ -214,7 +220,11 @@ export default function CompaniesPage() {
       </Card>
       
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={closeForm}>
+        <DialogContent onInteractOutside={(e) => {
+            if (editingCompany) {
+                e.preventDefault();
+            }
+        }} onEscapeKeyDown={closeForm}>
           <DialogHeader>
             <DialogTitle>{editingCompany ? 'Edit Company' : 'Add New Company'}</DialogTitle>
           </DialogHeader>
