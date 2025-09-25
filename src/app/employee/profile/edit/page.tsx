@@ -35,22 +35,28 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { PersonalDetailsForm } from "@/components/forms/employee-edit/PersonalDetailsForm";
+import { AddressDetailsForm } from "@/components/forms/employee-edit/AddressDetailsForm";
+import { BankingDetailsForm } from "@/components/forms/employee-edit/BankingDetailsForm";
+import { WorkDetailsForm } from "@/components/forms/employee-edit/WorkDetailsForm";
+import { RefereeDetailsForm } from "@/components/forms/employee-edit/RefereeDetailsForm";
+import { SalaryDetailsForm } from "@/components/forms/employee-edit/SalaryDetailsForm";
+import { StatutoryDetailsForm } from "@/components/forms/employee-edit/StatutoryDetailsForm";
 
 const employee = employees.find((e) => e.id === 'E001')!;
 
 const allCards = [
-    { title: "Personal Details", icon: User, isModal: true, formId: "personal" },
-    { title: "Address Details", icon: MapPin, isModal: true, formId: "address" },
-    { title: "Banking Details", icon: Landmark, isModal: true, formId: "banking" },
-    { title: "Work Details", icon: Briefcase, isModal: true, formId: "work"},
-    { title: "Referee Details", icon: UsersIcon, isModal: true, formId: "referee" },
-    { title: "Salary Details", icon: PiggyBank, isModal: true, formId: "salary" },
-    { title: "Benefits", icon: Gift, href: "benefits", isFinancial: true},
-    { title: "Deductions", icon: Receipt, href: "deductions", isFinancial: true},
-    { title: "Mortgage", icon: Home, href: "mortgage", isFinancial: true},
-    { title: "Life Insurance", icon: ShieldCheck, href: "life-insurance", isFinancial: true},
+    { title: "Personal Details", icon: User, isModal: true, form: PersonalDetailsForm, isReadOnly: false },
+    { title: "Address Details", icon: MapPin, isModal: true, form: AddressDetailsForm, isReadOnly: false },
+    { title: "Banking Details", icon: Landmark, isModal: true, form: BankingDetailsForm, isReadOnly: false },
+    { title: "Work Details", icon: Briefcase, isModal: true, form: WorkDetailsForm, isReadOnly: true },
+    { title: "Referee Details", icon: UsersIcon, isModal: true, form: RefereeDetailsForm, isReadOnly: false },
+    { title: "Salary Details", icon: PiggyBank, isModal: true, form: SalaryDetailsForm, isReadOnly: true },
+    { title: "Statutory Details", icon: FileText, isModal: true, form: StatutoryDetailsForm, isReadOnly: true },
+    { title: "Benefits", icon: Gift, isFinancial: true, data: 'benefits' },
+    { title: "Deductions", icon: Receipt, isFinancial: true, data: 'deductions' },
+    { title: "Mortgage", icon: Home, isFinancial: true, data: 'mortgage' },
+    { title: "Life Insurance", icon: ShieldCheck, isFinancial: true, data: 'life-insurance' },
 ];
 
 const mockFinancials = {
@@ -112,15 +118,18 @@ export default function EmployeeProfileEditPage() {
               <DialogHeader>
                 <DialogTitle>{card.isFinancial ? '' : 'Edit'} {card.title}</DialogTitle>
               </DialogHeader>
-              {card.isFinancial ? (
+               {card.isModal && card.form && (
+                  <card.form employee={employee} isReadOnly={card.isReadOnly} />
+                )}
+              {card.isFinancial && card.data && (
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      {Object.keys(mockFinancials[card.href as keyof typeof mockFinancials][0]).filter(k => k !== 'id').map(key => <TableHead key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</TableHead>)}
+                      {Object.keys(mockFinancials[card.data as keyof typeof mockFinancials][0]).filter(k => k !== 'id').map(key => <TableHead key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</TableHead>)}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {(mockFinancials[card.href as keyof typeof mockFinancials]).map((item: any) => (
+                    {(mockFinancials[card.data as keyof typeof mockFinancials]).map((item: any) => (
                         <TableRow key={item.id}>
                             {Object.entries(item).filter(([key]) => key !== 'id').map(([key, value]) => (
                                 <TableCell key={key}>{typeof value === 'number' ? new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(value) : value as React.ReactNode}</TableCell>
@@ -129,16 +138,6 @@ export default function EmployeeProfileEditPage() {
                     ))}
                   </TableBody>
                 </Table>
-              ) : (
-                <div className="space-y-4 py-4">
-                  <p className="text-muted-foreground">Form for editing your {card.title.toLowerCase()} goes here.</p>
-                  {card.formId === 'personal' && (
-                    <div className="space-y-2">
-                        <Label htmlFor="firstName">First Name</Label>
-                        <Input id="firstName" defaultValue={employee.firstName} />
-                    </div>
-                  )}
-                 </div>
               )}
             </DialogContent>
           </Dialog>

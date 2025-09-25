@@ -6,7 +6,6 @@ import {
   ArrowLeft,
   Briefcase,
   User,
-  HeartHandshake,
   Receipt,
   Home,
   ShieldCheck,
@@ -49,15 +48,23 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 
+import { PersonalDetailsForm } from "@/components/forms/employee-edit/PersonalDetailsForm";
+import { AddressDetailsForm } from "@/components/forms/employee-edit/AddressDetailsForm";
+import { BankingDetailsForm } from "@/components/forms/employee-edit/BankingDetailsForm";
+import { WorkDetailsForm } from "@/components/forms/employee-edit/WorkDetailsForm";
+import { RefereeDetailsForm } from "@/components/forms/employee-edit/RefereeDetailsForm";
+import { SalaryDetailsForm } from "@/components/forms/employee-edit/SalaryDetailsForm";
+import { StatutoryDetailsForm } from "@/components/forms/employee-edit/StatutoryDetailsForm";
+
+
 const allCards = [
-    // Detail cards (modal triggers)
-    { title: "Banking Details", icon: Landmark, isModal: true },
-    { title: "Address Details", icon: MapPin, isModal: true },
-    { title: "KRA Details", icon: FileText, isModal: true },
-    { title: "Work Details", icon: Briefcase, isModal: true },
-    { title: "Personal Details", icon: User, isModal: true },
-    { title: "Referee Details", icon: UsersIcon, isModal: true },
-    { title: "Salary Details", icon: PiggyBank, isModal: true },
+    { title: "Personal Details", icon: User, isModal: true, form: PersonalDetailsForm },
+    { title: "Address Details", icon: MapPin, isModal: true, form: AddressDetailsForm },
+    { title: "Banking Details", icon: Landmark, isModal: true, form: BankingDetailsForm },
+    { title: "KRA Details", icon: FileText, isModal: true, form: StatutoryDetailsForm },
+    { title: "Work Details", icon: Briefcase, isModal: true, form: WorkDetailsForm },
+    { title: "Referee Details", icon: UsersIcon, isModal: true, form: RefereeDetailsForm },
+    { title: "Salary Details", icon: PiggyBank, isModal: true, form: SalaryDetailsForm },
     // Financial cards (navigation links)
     { title: "Benefits", icon: Gift, href: "benefits"},
     { title: "Deductions", icon: Receipt, href: "deductions"},
@@ -93,7 +100,8 @@ export default function EmployeeProfilePage() {
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-8">
         {allCards.map((card) => {
-          if (card.isModal) {
+          if (card.isModal && card.form) {
+            const FormComponent = card.form;
             return (
               <Dialog key={card.title}>
                 <DialogTrigger asChild>
@@ -116,7 +124,7 @@ export default function EmployeeProfilePage() {
                   <DialogHeader>
                     <DialogTitle>Edit {card.title}</DialogTitle>
                   </DialogHeader>
-                  <p>Form for editing {card.title.toLowerCase()} goes here.</p>
+                  <FormComponent employee={employee} isReadOnly={false} />
                 </DialogContent>
               </Dialog>
             );
