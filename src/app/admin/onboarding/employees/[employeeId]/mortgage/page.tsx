@@ -15,7 +15,7 @@ const columns = [
     { 
         accessorKey: "amount", 
         header: "Monthly Deduction",
-        cell: ({ row }: any) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(row.getValue("amount"))
+        cell: ({ row }: any) => new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(row.getValue("amount"))
     },
 ];
 
@@ -31,7 +31,7 @@ export default function EmployeeMortgagePage() {
 
   // Mock assigned data
   const [assignedMortgages, setAssignedMortgages] = React.useState([
-    { id: "M001", provider: "Global Bank", reference: "MORT-88372", amount: 1200 }
+    { id: "M001", provider: "Global Bank", reference: "MORT-88372", amount: 120000 }
   ]);
 
   const actionButton = (

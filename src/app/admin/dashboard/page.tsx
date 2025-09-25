@@ -24,18 +24,18 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import { employees } from "@/lib/placeholder-data"
 
 const generateChartData = () => [
-  { name: 'Jan', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Feb', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Mar', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Apr', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'May', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Jun', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Jul', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Aug', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Sep', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Oct', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Nov', total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: 'Dec', total: Math.floor(Math.random() * 5000) + 1000 },
+  { name: 'Jan', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Feb', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Mar', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Apr', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'May', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Jun', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Jul', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Aug', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Sep', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Oct', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Nov', total: Math.floor(Math.random() * 500000) + 100000 },
+  { name: 'Dec', total: Math.floor(Math.random() * 500000) + 100000 },
 ]
 
 export default function AdminDashboard() {
@@ -57,7 +57,7 @@ export default function AdminDashboard() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">KES 5,875,345.50</div>
             <p className="text-xs text-muted-foreground flex items-center">
               <ArrowUp className="h-3 w-3 text-green-500 mr-1"/>
               +20.1% from last month
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
                 <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                    <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value/1000}K`} />
+                    <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `KES ${value/1000}K`} />
                     <Tooltip
                         contentStyle={{
                             background: "hsl(var(--card))",

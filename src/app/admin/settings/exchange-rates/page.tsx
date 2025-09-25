@@ -42,10 +42,10 @@ type ExchangeRate = {
 };
 
 const initialRates: ExchangeRate[] = [
-  { id: "R001", currency: "USD", rate: 1.00 },
-  { id: "R002", currency: "EUR", rate: 0.92 },
-  { id: "R003", currency: "GBP", rate: 0.79 },
-  { id: "R004", currency: "KES", rate: 130.50 },
+    { id: "R004", currency: "KES", rate: 1.00 },
+    { id: "R001", currency: "USD", rate: 130.50 },
+    { id: "R002", currency: "EUR", rate: 141.25 },
+    { id: "R003", currency: "GBP", rate: 165.80 },
 ];
 
 export default function ExchangeRatesPage() {
@@ -73,7 +73,7 @@ export default function ExchangeRatesPage() {
 
   const columns: ColumnDef<ExchangeRate>[] = [
     { accessorKey: "currency", header: "Currency" },
-    { accessorKey: "rate", header: "Rate to USD" },
+    { accessorKey: "rate", header: "Rate to KES" },
     {
       id: "actions",
       cell: () => (
@@ -113,7 +113,7 @@ export default function ExchangeRatesPage() {
                   name="currency"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Currency Code (e.g., EUR)</FormLabel>
+                      <FormLabel>Currency Code (e.g., USD)</FormLabel>
                       <FormControl><Input {...field} maxLength={3} /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -124,7 +124,7 @@ export default function ExchangeRatesPage() {
                   name="rate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Rate to 1 USD</FormLabel>
+                      <FormLabel>Rate to 1 KES</FormLabel>
                       <FormControl><Input type="number" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -146,7 +146,7 @@ export default function ExchangeRatesPage() {
     <>
       <PageHeader 
         title="Exchange Rates" 
-        description="Manage currency exchange rates relative to USD."
+        description="Manage currency exchange rates relative to KES."
         backHref="/admin/settings"
         backText="Back to Settings"
       />

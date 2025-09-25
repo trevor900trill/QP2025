@@ -11,9 +11,9 @@ import { employees } from "@/lib/placeholder-data";
 
 // This would come from an API in a real app
 const allBenefits = [
-  { id: "B001", name: "Health Insurance", type: "Benefit", amount: 300 },
-  { id: "B002", name: "Transport Allowance", type: "Benefit", amount: 150 },
-  { id: "B003", name: "Housing Allowance", type: "Benefit", amount: 500 },
+  { id: "B001", name: "Health Insurance", type: "Benefit", amount: 30000 },
+  { id: "B002", name: "Transport Allowance", type: "Benefit", amount: 15000 },
+  { id: "B003", name: "Housing Allowance", type: "Benefit", amount: 50000 },
 ];
 
 const columns = [
@@ -21,7 +21,7 @@ const columns = [
     { 
         accessorKey: "amount", 
         header: "Amount (Monthly)",
-        cell: ({ row }: any) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(row.getValue("amount"))
+        cell: ({ row }: any) => new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(row.getValue("amount"))
     },
 ];
 

@@ -15,7 +15,7 @@ const columns = [
     { 
         accessorKey: "premium", 
         header: "Monthly Premium",
-        cell: ({ row }: any) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(row.getValue("premium"))
+        cell: ({ row }: any) => new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(row.getValue("premium"))
     },
 ];
 
@@ -31,7 +31,7 @@ export default function EmployeeLifeInsurancePage() {
 
   // Mock assigned data
   const [assignedPolicies, setAssignedPolicies] = React.useState([
-      { id: "LI01", provider: "SecureLife Assurance", policyNo: "SL-POL-99123", premium: 150 }
+      { id: "LI01", provider: "SecureLife Assurance", policyNo: "SL-POL-99123", premium: 15000 }
   ]);
 
   const actionButton = (

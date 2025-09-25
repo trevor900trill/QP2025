@@ -55,17 +55,17 @@ const allCards = [
 
 const mockFinancials = {
     benefits: [
-        { id: "B001", name: "Health Insurance", amount: 300 },
-        { id: "B002", name: "Transport Allowance", amount: 150 },
+        { id: "B001", name: "Health Insurance", amount: 30000 },
+        { id: "B002", name: "Transport Allowance", amount: 15000 },
     ],
     deductions: [
-        { id: "D001", name: "Pension Contribution", amount: 200 },
+        { id: "D001", name: "Pension Contribution", amount: 20000 },
     ],
     mortgage: [
-         { id: "M001", provider: "Global Bank", reference: "MORT-88372", amount: 1200 }
+         { id: "M001", provider: "Global Bank", reference: "MORT-88372", amount: 120000 }
     ],
     "life-insurance": [
-        { id: "LI01", provider: "SecureLife Assurance", policyNo: "SL-POL-99123", premium: 150 }
+        { id: "LI01", provider: "SecureLife Assurance", policyNo: "SL-POL-99123", premium: 15000 }
     ]
 }
 
@@ -123,7 +123,7 @@ export default function EmployeeProfileEditPage() {
                     {(mockFinancials[card.href as keyof typeof mockFinancials]).map((item: any) => (
                         <TableRow key={item.id}>
                             {Object.entries(item).filter(([key]) => key !== 'id').map(([key, value]) => (
-                                <TableCell key={key}>{typeof value === 'number' ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value) : value as React.ReactNode}</TableCell>
+                                <TableCell key={key}>{typeof value === 'number' ? new Intl.NumberFormat("en-US", { style: "currency", currency: "KES" }).format(value) : value as React.ReactNode}</TableCell>
                             ))}
                         </TableRow>
                     ))}

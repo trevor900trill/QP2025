@@ -53,9 +53,9 @@ type Benefit = z.infer<typeof benefitSchema> & {
 };
 
 const initialBenefits: Benefit[] = [
-  { id: "B001", name: "Health Insurance", type: "Benefit", amount: 300 },
-  { id: "D001", name: "Pension Contribution", type: "Deduction", amount: 200 },
-  { id: "B002", name: "Transport Allowance", type: "Benefit", amount: 150 },
+  { id: "B001", name: "Health Insurance", type: "Benefit", amount: 30000 },
+  { id: "D001", name: "Pension Contribution", type: "Deduction", amount: 20000 },
+  { id: "B002", name: "Transport Allowance", type: "Benefit", amount: 15000 },
 ];
 
 export default function BenefitsPage() {
@@ -118,7 +118,7 @@ export default function BenefitsPage() {
         const amount = parseFloat(row.getValue("amount"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
-          currency: "USD",
+          currency: "KES",
         }).format(amount);
         return <div className="font-medium">{formatted}</div>;
       },

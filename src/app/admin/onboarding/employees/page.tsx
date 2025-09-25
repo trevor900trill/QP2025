@@ -260,7 +260,7 @@ export default function EmployeesPage() {
         const amount = parseFloat(row.getValue("grossPay"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
-          currency: "USD",
+          currency: "KES",
         }).format(amount);
         return <div className="text-right font-medium">{formatted}</div>;
       },

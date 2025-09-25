@@ -54,9 +54,9 @@ type PayrollRun = {
 };
 
 const initialPayrollRuns: PayrollRun[] = [
-    { id: 'PR001', month: 'July 2024', employees: 148, totalGross: 850000, totalNet: 720000, status: 'Completed' },
-    { id: 'PR002', month: 'June 2024', employees: 145, totalGross: 845000, totalNet: 715000, status: 'Completed' },
-    { id: 'PR003', month: 'May 2024', employees: 140, totalGross: 820000, totalNet: 690000, status: 'Completed' },
+    { id: 'PR001', month: 'July 2024', employees: 148, totalGross: 85000000, totalNet: 72000000, status: 'Completed' },
+    { id: 'PR002', month: 'June 2024', employees: 145, totalGross: 84500000, totalNet: 71500000, status: 'Completed' },
+    { id: 'PR003', month: 'May 2024', employees: 140, totalGross: 82000000, totalNet: 69000000, status: 'Completed' },
 ];
 
 const payrollSchema = z.object({
@@ -133,7 +133,7 @@ export default function PayrollPage() {
         const amount = parseFloat(row.getValue("totalGross"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
-          currency: "USD",
+          currency: "KES",
         }).format(amount);
         return <div className="font-medium">{formatted}</div>;
       },
@@ -145,7 +145,7 @@ export default function PayrollPage() {
         const amount = parseFloat(row.getValue("totalNet"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
-          currency: "USD",
+          currency: "KES",
         }).format(amount);
         return <div className="font-medium">{formatted}</div>;
       },
