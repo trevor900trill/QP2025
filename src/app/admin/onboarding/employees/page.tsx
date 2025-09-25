@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { MoreHorizontal, PlusCircle, UsersRound, Trash2, Eye } from "lucide-react";
+import { MoreHorizontal, PlusCircle, UsersRound, Trash2, FilePenLine } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -185,12 +185,9 @@ export default function EmployeesPage() {
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                   <Link href={`/admin/onboarding/employees/${employee.id}`}>
-                    <Eye className="mr-2 h-4 w-4" />
-                    View Profile
+                    <FilePenLine className="mr-2 h-4 w-4" />
+                    Edit Profile
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigator.clipboard.writeText(employee.id)}>
-                  Copy Employee ID
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <AlertDialogTrigger asChild>
