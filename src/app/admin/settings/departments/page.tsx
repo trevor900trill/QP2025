@@ -163,7 +163,12 @@ export default function DepartmentsPage() {
 
   return (
     <>
-      <PageHeader title="Departments" description="Manage your company's departments." />
+      <PageHeader 
+        title="Departments" 
+        description="Manage your company's departments."
+        backHref="/admin/settings"
+        backText="Back to Settings"
+      />
       <Card>
         <DataTable columns={columns} data={departments} searchKey="name" actionButton={actionButton} />
       </Card>

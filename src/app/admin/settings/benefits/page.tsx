@@ -175,7 +175,12 @@ export default function BenefitsPage() {
 
   return (
     <>
-      <PageHeader title="Benefits and Deductions" description="Manage company-wide benefits and deductions." />
+      <PageHeader 
+        title="Benefits and Deductions" 
+        description="Manage company-wide benefits and deductions."
+        backHref="/admin/settings"
+        backText="Back to Settings"
+      />
       <Card>
         <DataTable
             columns={columns}

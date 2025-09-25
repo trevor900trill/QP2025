@@ -164,7 +164,12 @@ export default function RolesPage() {
 
   return (
     <>
-      <PageHeader title="Roles Settings" description="Manage user roles and permissions."/>
+      <PageHeader 
+        title="Roles Settings" 
+        description="Manage user roles and permissions."
+        backHref="/admin/settings"
+        backText="Back to Settings"
+      />
       <Card>
         <DataTable columns={columns} data={roles} searchKey="name" actionButton={actionButton} />
       </Card>

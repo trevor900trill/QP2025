@@ -160,7 +160,12 @@ export default function EmployeeTypesPage() {
 
   return (
     <>
-      <PageHeader title="Employee Types" description="Define the types of employment in your organization." />
+      <PageHeader 
+        title="Employee Types" 
+        description="Define the types of employment in your organization."
+        backHref="/admin/settings"
+        backText="Back to Settings"
+      />
       <Card>
         <DataTable columns={columns} data={employeeTypes} searchKey="name" actionButton={actionButton}/>
       </Card>

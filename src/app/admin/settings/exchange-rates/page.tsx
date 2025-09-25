@@ -144,7 +144,12 @@ export default function ExchangeRatesPage() {
 
   return (
     <>
-      <PageHeader title="Exchange Rates" description="Manage currency exchange rates relative to USD."/>
+      <PageHeader 
+        title="Exchange Rates" 
+        description="Manage currency exchange rates relative to USD."
+        backHref="/admin/settings"
+        backText="Back to Settings"
+      />
       <Card>
         <DataTable columns={columns} data={rates} searchKey="currency" actionButton={actionButton} />
       </Card>
