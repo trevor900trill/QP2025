@@ -48,9 +48,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
-import { Separator } from "@/components/ui/separator";
 
-const detailCards = [
+const allCards = [
+    // Detail cards (modal triggers)
     { title: "Banking Details", icon: Landmark, isModal: true },
     { title: "Address Details", icon: MapPin, isModal: true },
     { title: "KRA Details", icon: FileText, isModal: true },
@@ -58,14 +58,13 @@ const detailCards = [
     { title: "Personal Details", icon: User, isModal: true },
     { title: "Referee Details", icon: UsersIcon, isModal: true },
     { title: "Salary Details", icon: PiggyBank, isModal: true },
-];
-
-const financialCards = [
-    { title: "Benefits", icon: HeartHandshake, href: "benefits"},
+    // Financial cards (navigation links)
+    { title: "Benefits", icon: Gift, href: "benefits"},
     { title: "Deductions", icon: Receipt, href: "deductions"},
     { title: "Mortgage", icon: Home, href: "mortgage"},
     { title: "Life Insurance", icon: ShieldCheck, href: "life-insurance"},
-]
+];
+
 
 export default function EmployeeProfilePage() {
   const params = useParams<{ employeeId: string }>();
@@ -92,12 +91,39 @@ export default function EmployeeProfilePage() {
         iconAnimation="breathe"
       />
       
-      <h2 className="text-xl font-semibold mb-4">Personal & Work Details</h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {detailCards.map((card) => (
-            <Dialog key={card.title}>
-              <DialogTrigger asChild>
-                <Card className="group cursor-pointer hover:border-primary transition-colors">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-8">
+        {allCards.map((card) => {
+          if (card.isModal) {
+            return (
+              <Dialog key={card.title}>
+                <DialogTrigger asChild>
+                  <Card className="group cursor-pointer hover:border-primary transition-colors">
+                    <CardHeader className="flex flex-row items-center justify-between">
+                      <CardTitle className="text-lg font-medium">
+                        {card.title}
+                      </CardTitle>
+                      <card.icon className="h-5 w-5 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-sm text-primary flex items-center">
+                        Edit {card.title.toLowerCase()}
+                        <ExternalLink className="ml-2 h-4 w-4" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit {card.title}</DialogTitle>
+                  </DialogHeader>
+                  <p>Form for editing {card.title.toLowerCase()} goes here.</p>
+                </DialogContent>
+              </Dialog>
+            );
+          } else {
+            return (
+              <Link href={`/admin/onboarding/employees/${employee.id}/${card.href}`} key={card.title}>
+                <Card className="group h-full hover:border-primary transition-colors">
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="text-lg font-medium">
                       {card.title}
@@ -106,49 +132,18 @@ export default function EmployeeProfilePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-sm text-primary flex items-center">
-                      Edit {card.title.toLowerCase()}
+                      Manage {card.title.toLowerCase()}
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </div>
                   </CardContent>
                 </Card>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Edit {card.title}</DialogTitle>
-                </DialogHeader>
-                {/* Placeholder for form */}
-                <p>Form for editing {card.title.toLowerCase()} goes here.</p>
-              </DialogContent>
-            </Dialog>
-          )
-        )}
-      </div>
-
-      <Separator className="my-8" />
-      
-      <h2 className="text-xl font-semibold mb-4">Financial Details</h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {financialCards.map((card) =>
-            <Link href={`/admin/onboarding/employees/${employee.id}/${card.href}`} key={card.title}>
-              <Card className="group h-full hover:border-primary transition-colors">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg font-medium">
-                    {card.title}
-                  </CardTitle>
-                  <card.icon className="h-5 w-5 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-sm text-primary flex items-center">
-                    Manage {card.title.toLowerCase()}
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-        )}
+              </Link>
+            );
+          }
+        })}
       </div>
       
-      <div className="mt-8">
+      <div>
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button variant="destructive">
