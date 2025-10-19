@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: qwikerp-scrt
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: CqY1hRhu2GkraRgkNDd6nkxJn9H6WPel99mO59XQ
