@@ -41,12 +41,38 @@ export default function ForgotPasswordPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Sending password reset link to:", values.email);
-
     toast({
-      title: "Check Your Email",
-      description: "A password reset link has been sent to your email address.",
+      title: "Sending Request",
+      description: "Please wait...",
     });
+
+    try {
+      const { AuthService } = await import("@/lib/auth-api");
+      const status = await AuthService.forgotPassword(values.email);
+
+      if (status === 200) {
+        toast({
+          title: "Check Your Email",
+          description: "A password reset link has been sent to your email address.",
+          variant: "default",
+        });
+        // Optional: Redirect to a success page or back to login after a delay
+        // Vue had /forgotPasswordSubmission route, but React doesn't seem to have it yet based on list_dir.
+        // We'll stick to the toast for now.
+      } else {
+        toast({
+          title: "Request Failed",
+          description: "Could not send reset link. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    }
   }
 
   return (

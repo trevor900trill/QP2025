@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
@@ -43,6 +43,21 @@ const modules = [
 ];
 
 export default function ModuleSelectPage() {
+  const [userType, setUserType] = useState<number | null>(null);
+
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        console.log("Current User Type:", user.appUserType);
+        setUserType(user.appUserType);
+      } catch (e) {
+        console.error("Failed to parse user", e);
+      }
+    }
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <header className="mb-8 text-center">
@@ -54,22 +69,39 @@ export default function ModuleSelectPage() {
       </header>
       <main className="grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {modules.map((module) => {
+          let isDisabled = module.disabled; // Default disabled state (like POS)
+
+          if (!isDisabled && userType !== null) {
+            if (module.role === 'admin') {
+              // Admin module: Enabled for 1 (Admin) and 3 (Both)
+              isDisabled = !(userType === 1 || userType === 3);
+            } else if (module.role === 'employee') {
+              // Employee module: Enabled for 2 (Employee) and 3 (Both)
+              isDisabled = !(userType === 2 || userType === 3);
+            }
+          }
+
           const cardContent = (
-            <Card 
+            <Card
               className={cn(
                 "h-full transition-all duration-300 ease-in-out relative",
-                module.disabled 
-                  ? "opacity-50 cursor-not-allowed"
+                isDisabled
+                  ? "opacity-60 cursor-not-allowed bg-muted/50"
                   : "group-hover:shadow-lg group-hover:border-primary group-hover:-translate-y-1"
               )}
             >
-              {module.disabled && (
+              {module.disabled && ( // "Coming Soon" for permanently disabled
                 <Badge variant="secondary" className="absolute top-4 right-4 z-10">
                   Coming Soon
                 </Badge>
               )}
+              {(!module.disabled && isDisabled) && ( // "Restricted" for role mismatch
+                <Badge variant="destructive" className="absolute top-4 right-4 z-10">
+                  Restricted
+                </Badge>
+              )}
               <CardHeader className="flex flex-row items-center gap-4">
-                <div className="bg-primary/10 text-primary p-3 rounded-lg">
+                <div className={cn("bg-primary/10 text-primary p-3 rounded-lg", isDisabled && "grayscale")}>
                   <module.icon className="h-8 w-8" />
                 </div>
                 <div>
@@ -78,27 +110,27 @@ export default function ModuleSelectPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                 <div className={cn(
-                    "flex justify-end items-center text-sm text-primary transition-opacity",
-                    !module.disabled && "opacity-0 group-hover:opacity-100"
-                  )}>
-                    {!module.disabled && (
-                        <>
-                         <span>Enter Portal</span>
-                         <ChevronRight className="h-4 w-4 ml-1"/>
-                        </>
-                    )}
-                 </div>
+                <div className={cn(
+                  "flex justify-end items-center text-sm text-primary transition-opacity",
+                  !isDisabled && "opacity-0 group-hover:opacity-100"
+                )}>
+                  {!isDisabled && (
+                    <>
+                      <span>Enter Portal</span>
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </>
+                  )}
+                </div>
               </CardContent>
             </Card>
           );
-          
-          return module.disabled ? (
+
+          return isDisabled ? (
             <div key={module.name}>{cardContent}</div>
           ) : (
-            <Link 
-              href={module.href} 
-              key={module.name} 
+            <Link
+              href={module.href}
+              key={module.name}
               className="group"
             >
               {cardContent}
@@ -106,9 +138,13 @@ export default function ModuleSelectPage() {
           );
         })}
       </main>
-       <footer className="mt-8">
-        <Button variant="link" asChild>
-            <Link href="/">Sign out</Link>
+      <footer className="mt-8">
+        <Button variant="link" onClick={() => {
+          import('@/lib/auth-api').then(({ logOutAction }) => {
+            logOutAction();
+          });
+        }}>
+          Sign out
         </Button>
       </footer>
     </div>

@@ -42,16 +42,75 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Logging in with:", values);
-    
     toast({
-      title: "Login Successful",
-      description: "Redirecting to module selection...",
+      title: "Logging in...",
+      description: "Please wait while we verify your credentials.",
     });
 
-    setTimeout(() => {
-      router.push("/module-select");
-    }, 1000);
+    try {
+      // Import dynamically to avoid server-side issues if any, though "use client" handles it
+      const { AuthService } = await import("@/lib/auth-api");
+
+      // Map form values to API expected format (username/password)
+      const payload = {
+        username: values.email,
+        password: values.password
+      };
+
+      const result = await AuthService.login(payload);
+
+      if (result.success && result.data?.result) {
+        toast({
+          title: "Login Successful",
+          description: "Redirecting...",
+          variant: "default",
+        });
+
+        // Store user data
+        localStorage.setItem("user", JSON.stringify(result.data.result));
+
+        // Handle Redirection Logic based on User Type (ported from Vue)
+        const user = result.data.result;
+
+        // Check for return route
+        const returnRoute = localStorage.getItem("QpReturn");
+        if (returnRoute && returnRoute !== "/" && returnRoute !== "/login") {
+          router.push(returnRoute);
+          localStorage.removeItem("QpReturn");
+          return;
+        }
+
+        if (user.forcePasswordChange) {
+          router.push("/forgot-password");
+        } else {
+          // appUserType: 1 -> QP (Admin?), 2 -> Employee, 3 -> QP
+          // In React, we have /module-select as a landing or direct to dashboard.
+          // The prompt mentioned "there is a page after login has all the modules".
+          // So we default to module-select unless specific logic dictates otherwise.
+          // However, Vue logic had specific routes.
+          // Vue: 1->/qp, 2->/employee, 3->/qp
+          // React app has /module-select. Let's send them there to choose, 
+          // OR if specific role, maybe we can direct them? 
+          // User said: "there is a page after login has all the modules, etc".
+          // So let's route to /module-select for everyone, or follow Vue's logic?
+          // "on the react side, I am doing it using modules, there is a page after login has all the modules"
+          // So routing to /module-select seems correct for the React version.
+          router.push("/module-select");
+        }
+      } else {
+        toast({
+          title: "Login Failed",
+          description: result.error || "Invalid credentials",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
@@ -67,7 +126,7 @@ export default function LoginPage() {
               Enter your credentials to access your account.
             </p>
           </div>
-           <Form {...form}>
+          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
               <FormField
                 control={form.control}
@@ -108,7 +167,7 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
-           <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link href="https://www.qwikpace.com/#book-demo" className="underline text-primary font-semibold">
               Book a Demo
