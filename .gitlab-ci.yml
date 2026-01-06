@@ -1,0 +1,123 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  NAMESPACE: qwikerp
+  KUBE_CONTEXT: do-nyc1-k8s-1-30-4-do-0-nyc1-1725038313323
+  SECRET_NAME: dockerkey-qwikerp
+  NODE_VERSION: "18"
+
+# Docker Build
+docker_build:
+  stage: build
+  only:
+    - master
+    - main
+    - dev
+    - beta
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+  timeout: 20 minutes
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - echo "Building Docker image for frontend application..."
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - echo "Docker image pushed successfully"
+
+# Deploy Stage
+deploy:
+  stage: deploy
+  only:
+    - master
+    - main
+    - dev
+    - beta
+  image: ubuntu:22.04
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+    # Install kubectl
+    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    - chmod +x kubectl
+    - mv kubectl /usr/local/bin/
+    # Install helm - Fixed GPG key installation
+    - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    - chmod 700 get_helm.sh
+    - ./get_helm.sh
+    # Setup kubeconfig
+    - echo "$KUBECONFIG" > kubeconfig.yaml
+    - kubectl config --kubeconfig=kubeconfig.yaml get-contexts
+    - kubectl --kubeconfig=kubeconfig.yaml config use-context $KUBE_CONTEXT
+    # Set namespace and environment based on branch
+    - |
+      if [[ "$CI_COMMIT_REF_NAME" == "master" || "$CI_COMMIT_REF_NAME" == "main" ]]; then
+        export DEPLOY_NAMESPACE="qwikerp"
+        export DEPLOY_SECRET_NAME="dockerkey-qwikerp"
+        export ENVIRONMENT="production"
+        export NODE_ENV="production"
+      else
+        export DEPLOY_NAMESPACE="qwikerp-beta"
+        export DEPLOY_SECRET_NAME="dockerkey-qwikerp-beta"
+        export ENVIRONMENT="development"
+        export NODE_ENV="development"
+      fi
+      echo "Deploying to namespace: $DEPLOY_NAMESPACE"
+      echo "Environment: $ENVIRONMENT"
+    # Create namespace if it doesn't exist
+    - |
+      if kubectl --kubeconfig=kubeconfig.yaml get namespace $DEPLOY_NAMESPACE &> /dev/null; then
+        echo "Namespace $DEPLOY_NAMESPACE already exists"
+      else
+        kubectl --kubeconfig=kubeconfig.yaml create namespace $DEPLOY_NAMESPACE
+      fi
+    # Create or update docker registry secret
+    - |
+      kubectl --kubeconfig=kubeconfig.yaml delete secret "$DEPLOY_SECRET_NAME" --namespace=$DEPLOY_NAMESPACE --ignore-not-found
+      kubectl --kubeconfig=kubeconfig.yaml create secret docker-registry "$DEPLOY_SECRET_NAME" \
+        --docker-server=$CI_REGISTRY \
+        --docker-username=$CI_REGISTRY_USER \
+        --docker-password=$CI_REGISTRY_PASSWORD \
+        --namespace=$DEPLOY_NAMESPACE
+  script:
+    - echo "Deploying frontend application to Kubernetes..."
+    # Set deployment variables based on branch...
+    - |
+      if [[ "$CI_COMMIT_REF_NAME" == "master" || "$CI_COMMIT_REF_NAME" == "main" ]]; then
+        export DEPLOY_NAMESPACE="qwikerp"
+        export DEPLOY_SECRET_NAME="dockerkey-qwikhr"
+        export ENVIRONMENT="production"
+        export VUE_APP_QP_URL="https://qwikhr-api.qwikpace.com/api/v1"
+        export NODE_ENV="production"
+      else
+        export DEPLOY_NAMESPACE="qwikerp-beta"
+        export DEPLOY_SECRET_NAME="dockerkey-qwikerp-beta"
+        export ENVIRONMENT="development"
+        export NODE_ENV="development"
+      fi
+      echo "Deploying frontend to: $DEPLOY_NAMESPACE"
+      echo "Using API URL: $VUE_APP_QP_URL"
+    - |
+      helm upgrade --install qwikerp-frontend ./helm \
+        --kubeconfig=kubeconfig.yaml \
+        --namespace $DEPLOY_NAMESPACE \
+        --set image.repository="$CI_REGISTRY_IMAGE" \
+        --set image.tag="$CI_COMMIT_SHORT_SHA" \
+        --set imagePullSecrets[0].name="$DEPLOY_SECRET_NAME" \
+        --set environment="$ENVIRONMENT" \
+        --set env.VUE_APP_QP_URL="$VUE_APP_QP_URL" \
+        --set env.NODE_ENV="$NODE_ENV" \
+        --wait \
+        --timeout=300s
