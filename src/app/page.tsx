@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { AuthPattern } from "@/components/shared/AuthPattern";
+import { AuthSidePanel } from "@/components/shared/AuthSidePanel";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -175,8 +175,8 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <div className="hidden lg:flex items-center justify-center bg-primary">
-        <AuthPattern />
+      <div className="hidden lg:flex items-center justify-center bg-primary p-0 overflow-hidden">
+        <AuthSidePanel />
       </div>
     </div>
   );
